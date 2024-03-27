@@ -106,3 +106,10 @@ scrape_configs:
 root@serverlocal:~# docker cp prometheus.yml prometheus:/etc/prometheus/prometheus.yml
 root@serverlocal:~# docker restart prometheus
 ```
+
+### Setup 4: Setup config in Grafana for show the chart like user view
+
+* Note: In the file app.py, I have make example have added "metrics plugin in source code for get infor detail every api when they request to server "
+
+#### 4.1: Add the Database Source
+![VM](imagesDocs/1.png)
