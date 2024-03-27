@@ -1,4 +1,23 @@
-docker run --name ActsOne -d -p 6379:6379 redis
+#### Setup Redis
+
+##### Make the docker-compose.yml file with this content 
+```bash
+version: '3'
+
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+```
+
+# And then run this one, redis sẽ chạy trên pod 6379
+docker-compose up -d
 
 ```bash
 root@serverlocal:~# docker ps

@@ -24,7 +24,8 @@ def insert():
         return jsonify({'error': 'Key and value must be provided'}), 400
 
 if __name__ == '__main__':
-    # Adding tasks to the queue
+    
+    # Test gửi 1 triệu tin nhắn
     for i in range(1, 1000001):
         add_task("Message: " + str(i))
     
