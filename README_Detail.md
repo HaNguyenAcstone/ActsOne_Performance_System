@@ -41,7 +41,7 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 ```
 
 ### Step 2: Setup Telegraf
-$Telegraf is ?
+*** Telegraf is ?
 
 
 Telegraf is an open-source tool designed for collecting, processing, and sending metrics and data from various sources within a system for monitoring and analysis purposes. It supports gathering data from diverse inputs such as logs, services, system resources, and external sources like SNMP and Docker. Telegraf can then send this collected data to storage systems like InfluxDB or other monitoring systems using protocols such as Prometheus and Graphite. It's highly flexible and extensible, allowing users to customize data collection and processing according to their specific needs.
