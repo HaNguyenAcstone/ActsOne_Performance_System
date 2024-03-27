@@ -1,12 +1,29 @@
+import time
 import redis
-import json
+from flask import Flask, request
 
-redis_client = redis.Redis(host='192.168.200.128', port=6379, db=0)  # Connect to DB0
+app = Flask(__name__)
+redis_client = redis.Redis(host='192.168.200.128', port=6379, db=0)
+queue_name = 'task_queue'
 
 def process_tasks():
-    tasks = redis_client.lrange('task_queue', 0, -1)  # Retrieve all elements of the list
-    task_list = [{'task': task.decode('utf-8')} for task in tasks]
-    print(json.dumps(task_list, indent=4))  # Print all tasks as a JSON array with indentation
+    while True:
+        task = redis_client.lpop(queue_name)
+        if task is not None:
+            print("Processing task:", task.decode('utf-8'))
+            time.sleep(1)
+        else:
+            print("No tasks in the queue.")
+            break
+
+@app.route('/process_tasks', methods=['GET'])
+def trigger_process_tasks():
+    get_param = request.args.get('get')
+    if get_param == '1':
+        process_tasks()
+        return "Tasks processed successfully."
+    else:
+        return "Invalid request."
 
 if __name__ == '__main__':
-    process_tasks()
+    app.run(debug=True)

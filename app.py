@@ -15,23 +15,6 @@ def endpoint1():
     # Trả về hình ảnh như là phản hồi
     return send_file(image_path, mimetype='image/png')
 
-@app.route('/endpoint2')
-def endpoint2():
-    time.sleep(1)
-    # Đường dẫn của hình ảnh bạn muốn trả về
-    image_path = 'images/1.png'  # Thay đổi đường dẫn tới hình ảnh thực tế của bạn
-
-    # Trả về hình ảnh như là phản hồi
-    return send_file(image_path, mimetype='image/png')
-
-@app.route('/endpoint3')
-def endpoint3():
-    time.sleep(1)
-    # Đường dẫn của hình ảnh bạn muốn trả về
-    image_path = 'images/2.png'  # Thay đổi đường dẫn tới hình ảnh thực tế của bạn
-
-    # Trả về hình ảnh như là phản hồi
-    return send_file(image_path, mimetype='image/png')
 
 # Sử dụng prometheus_client để xuất các metric
 @app.route('/metrics')
