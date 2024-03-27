@@ -4,7 +4,7 @@
 
 ### In ActsOne now run applicaction in Docker, we will use the way for docker
 
-Docker => ( Setup Metric in project ) => Prometheus => Grafana
+## ( Docker ) => ( Setup Metric in project ) => ( Prometheus ) => ( Grafana )
 
 #### Metric is ?
 
@@ -113,3 +113,5 @@ root@serverlocal:~# docker restart prometheus
 
 #### 4.1: Add the Database Source
 ![VM](imagesDocs/1.png)
+
+In here u can choice the prometheus and add that
