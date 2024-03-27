@@ -1,5 +1,6 @@
 from flask import Flask, send_file
 from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 import time
 
 app = Flask(__name__)
@@ -31,6 +32,11 @@ def endpoint3():
 
     # Trả về hình ảnh như là phản hồi
     return send_file(image_path, mimetype='image/png')
+
+# Sử dụng prometheus_client để xuất các metric
+@app.route('/metrics')
+def export_metrics():
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

@@ -156,3 +156,5 @@ Qua các bước này, bạn có thể biểu diễn các metrics từ Prometheu
 
 
 http://192.168.200.128:9090/targets?search=
+
+docker run -d -p 5000:5000 --name admiring_goldwasser linhtran2023/performance_test:v06
