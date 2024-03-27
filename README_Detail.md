@@ -115,3 +115,16 @@ root@serverlocal:~# docker restart prometheus
 ![VM](imagesDocs/1.png)
 
 In here u can choice the prometheus and add that
+
+----
+
+#### Command use usual when do this project 
+
+```bash 
+
+# Check IP have connnect with ( prometheus service )
+http://192.168.200.128:9090/targets?search=
+
+docker run -d -p 5000:5000 --name admiring_goldwasser linhtran2023/performance_test:v06
+
+```
