@@ -17,17 +17,18 @@ def insert_data(key, value):
 def index():
     get_value = request.args.get('get', default=1, type=int)
 
-    if get_value > 0 and get_value != "":
-        # Insert tự động dữ liệu vào queue
-        for i in range(1, get_value):
+    #if get_value > 0 and get_value != "":
+    # Insert tự động dữ liệu vào queue
+    for i in range(1, get_value):
 
-            # Add Task theo cơ chế Messege queue theo redis 
-            add_task("Message: " + str(i))
-            
-            # Lưu vào DB
-            insert_data("Message: ",   str(i))
+        # Add Task theo cơ chế Messege queue theo redis 
+        add_task("Message: " + str(i))
+        
+        # Lưu vào DB
+        insert_data("Message: ",   str(i))
 
     return format(get_value)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
+
