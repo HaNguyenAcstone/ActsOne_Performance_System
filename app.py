@@ -1,19 +1,34 @@
-from flask import Flask, Response
-from prometheus_client import Counter, generate_latest, REGISTRY
+from flask import Flask, send_file
+import time
 
 app = Flask(__name__)
 
-# Định nghĩa một counter metric với tên là 'requests_total' và mô tả 'Số lượng requests đã được gửi'
-requests_total = Counter('requests_total', 'Số lượng requests đã được gửi')
+@app.route('/endpoint1')
+def endpoint1():
+    time.sleep(1)
+    # Đường dẫn của hình ảnh bạn muốn trả về
+    image_path = 'images/2.png'  # Thay đổi đường dẫn tới hình ảnh thực tế của bạn
 
-@app.route('/')
-def hello():
-    requests_total.inc()  # Tăng giá trị của metric 'requests_total' mỗi khi endpoint này được gọi
-    return "Hello, World!"
+    # Trả về hình ảnh như là phản hồi
+    return send_file(image_path, mimetype='image/png')
 
-@app.route('/metrics')
-def metrics():
-    return Response(generate_latest(REGISTRY), mimetype='text/plain')
+@app.route('/endpoint2')
+def endpoint2():
+    time.sleep(1)
+    # Đường dẫn của hình ảnh bạn muốn trả về
+    image_path = 'images/1.png'  # Thay đổi đường dẫn tới hình ảnh thực tế của bạn
+
+    # Trả về hình ảnh như là phản hồi
+    return send_file(image_path, mimetype='image/png')
+
+@app.route('/endpoint3')
+def endpoint3():
+    time.sleep(1)
+    # Đường dẫn của hình ảnh bạn muốn trả về
+    image_path = 'images/2.png'  # Thay đổi đường dẫn tới hình ảnh thực tế của bạn
+
+    # Trả về hình ảnh như là phản hồi
+    return send_file(image_path, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

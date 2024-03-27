@@ -129,4 +129,22 @@ Tỉ lệ chuyển đổi: Số lượng người dùng đã thực hiện mua h
 Thời gian phản hồi của máy chủ: Thời gian mà máy chủ phản hồi lại yêu cầu từ người dùng.
 Các metrics này giúp bạn đo lường và theo dõi hiệu suất của cửa hàng trực tuyến của bạn. Khi sử dụng Prometheus, bạn có thể thu thập và lưu trữ các metrics như thế này từ ứng dụng của mình. Sau đó, bạn có thể sử dụng Prometheus để giám sát và phân tích các metrics này để theo dõi hoạt động của cửa hàng trực tuyến của bạn và xác định bất kỳ vấn đề nào mà bạn cần giải quyết.
 
+#### Bước tiếp theo:
+
+Để biểu diễn các metrics thu thập được từ Prometheus trên Grafana thành các biểu đồ giao diện người dùng đẹp, bạn có thể tuân theo các bước sau:
+
+Kết nối Grafana với Prometheus: Trước tiên, bạn cần kết nối Grafana với Prometheus. Điều này cho phép Grafana truy vấn dữ liệu từ Prometheus để tạo các biểu đồ.
+
+Tạo Dashboard mới: Sau khi kết nối, bạn sẽ tạo một Dashboard mới trên Grafana. Dashboard sẽ chứa các biểu đồ và đồ thị của các metrics mà bạn muốn hiển thị.
+
+Thêm Panels (Biểu Đồ): Trong Dashboard, bạn sẽ thêm các Panels (biểu đồ) để hiển thị các metrics. Grafana cung cấp một loạt các tùy chọn biểu đồ, bao gồm biểu đồ đường, biểu đồ cột, biểu đồ vòng tròn, và nhiều loại biểu đồ khác.
+
+Cấu hình Truy vấn (Query): Đối với mỗi Panel, bạn sẽ cấu hình truy vấn để lấy dữ liệu từ Prometheus. Trong truy vấn, bạn chỉ định metrics mà bạn muốn hiển thị và áp dụng các phép lọc, biến đổi hoặc tính toán khác nếu cần.
+
+Tùy chỉnh và Điều chỉnh: Bạn có thể tùy chỉnh các biểu đồ và đồ thị để phản ánh các metrics một cách trực quan và dễ hiểu nhất. Điều chỉnh các màu sắc, nhãn, tiêu đề và định dạng khác để tạo ra một giao diện người dùng đẹp và dễ đọc.
+
+Lưu và Chia sẻ Dashboard: Sau khi tạo và tinh chỉnh Dashboard của bạn, bạn có thể lưu nó và chia sẻ với đồng nghiệp hoặc các thành viên khác của nhóm để họ có thể theo dõi hiệu suất của hệ thống hoặc ứng dụng.
+
+Qua các bước này, bạn có thể biểu diễn các metrics từ Prometheus trên Grafana thành các biểu đồ và đồ thị giao diện người dùng đẹp và dễ đọc.
+
 ### Setup Redis
