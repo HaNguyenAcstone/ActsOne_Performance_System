@@ -1,7 +1,9 @@
 from flask import Flask, send_file
+from prometheus_flask_exporter import PrometheusMetrics
 import time
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 @app.route('/endpoint1')
 def endpoint1():

@@ -105,7 +105,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["localhost:9090", "localhost:5000"]
+      - targets: ["localhost:9090", "ip:9100"]
 
 
 ```
@@ -116,6 +116,11 @@ root@serverlocal:~# docker cp prometheus.yml prometheus:/etc/prometheus/promethe
 root@serverlocal:~# docker restart prometheus
 prometheus
 root@serverlocal:~#
+
+# Sau đó vào lại check prometheus đã có lấy được metric chưa bằng cách sau
+# Nhập lệnh này: up{instance="192.168.200.128:9100", job="prometheus"}
+
+# Nhập vào Expression
 
 ```
 #### Định nghĩa của Metrics  
@@ -148,3 +153,6 @@ Lưu và Chia sẻ Dashboard: Sau khi tạo và tinh chỉnh Dashboard của b�
 Qua các bước này, bạn có thể biểu diễn các metrics từ Prometheus trên Grafana thành các biểu đồ và đồ thị giao diện người dùng đẹp và dễ đọc.
 
 ### Setup Redis
+
+
+http://192.168.200.128:9090/targets?search=
