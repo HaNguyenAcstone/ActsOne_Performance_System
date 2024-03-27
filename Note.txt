@@ -1,0 +1,3 @@
+docker build -t linhtran2023/performance_test:v01 .
+
+docker push linhtran2023/performance_test:v01
