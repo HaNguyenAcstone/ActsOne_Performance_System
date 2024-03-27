@@ -99,3 +99,10 @@ scrape_configs:
       - targets: ["localhost:9090", "1.22.3.4:9100"] 
 
 ```
+
+#### And then use this command 
+
+```bash 
+root@serverlocal:~# docker cp prometheus.yml prometheus:/etc/prometheus/prometheus.yml
+root@serverlocal:~# docker restart prometheus
+```
