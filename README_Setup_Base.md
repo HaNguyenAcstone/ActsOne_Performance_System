@@ -2,21 +2,21 @@
 
 ----
 
-## 1. Setup Node Exporter ( Plugin for get Metric in Node )
+### 1. Setup Node Exporter ( Plugin for get Metric in Node )
 ```bash
 docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 ```
 
 ----
 
-## 2. Setup Container Advisor ( Plugin for get Metric in Docker's Container )
+### 2. Setup Container Advisor ( Plugin for get Metric in Docker's Container )
 ```bash
 docker run -d --name=container-advisor -p 9300:9300 prom/container-exporter
 ```
 
 ----
 
-## 3. Setup Grafana ( Website for show Chart View )
+### 3. Setup Grafana ( Website for show Chart View )
 
 ```bash 
 # Make the docker-compose.yml file with this content 
@@ -44,7 +44,7 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 
 ----
 
-## 4. Setup Redis ( Database No SQL )
+### 4. Setup Redis ( Database No SQL )
 
 ```bash
 
@@ -73,7 +73,7 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 
 ----
 
-## 5. Setup Protheums ( Plugin for get all Metrics from Project want see the performace )
+### 5. Setup Protheums ( Plugin for get all Metrics from Project want see the performace )
 
 ```bash
 docker run -d -p 9090:9090 --name prometheus prom/prometheus
@@ -131,13 +131,13 @@ scrape_configs:
 
 ```bash 
 # Lệnh lấy file từ Docker Container ra ngoài ( VD: 601280c779bc = CONTAINER ID )
-root@serverlocal:~# docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
 
 # Tương tự copy ngược vào lại Container ( VD: 601280c779bc = CONTAINER ID )
 docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
 
 # Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
-root@serverlocal:~# docker restart 601280c779bc
+docker restart 601280c779bc
 ```
 
 ----
