@@ -153,3 +153,15 @@ docker restart 601280c779bc
 
 
 ----
+
+
+----
+
+### Note for fix 
+
+```bash
+
+# Cái Container này cho chạy chung lớp mạng với prometheus
+prom/container-exporter
+
+```
