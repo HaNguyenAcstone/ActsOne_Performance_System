@@ -13,8 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy mã nguồn ứng dụng vào thư mục /app trong container
 COPY . .
 
-# Expose cổng 5001 để ứng dụng Flask lắng nghe request
-EXPOSE 5001
-
 # Khởi chạy ứng dụng
-CMD ["python", "Add_Task.py"]
+CMD ["python", "app.py"]
+
+# docker run -d -p 8081:801 --name add_task_redis linhtran2023/add_task_redis:v07
