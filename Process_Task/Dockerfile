@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy mã nguồn ứng dụng vào thư mục /app trong container
 COPY . .
 
-# Expose cổng 5000 để ứng dụng Flask lắng nghe request
-EXPOSE 5000
+# Expose cổng 5001 để ứng dụng Flask lắng nghe request
+EXPOSE 5001
 
 # Khởi chạy ứng dụng
-CMD ["python", "app.py"]
+CMD ["python", "Add_Task.py"]
