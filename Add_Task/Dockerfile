@@ -16,4 +16,4 @@ COPY . .
 # Khởi chạy ứng dụng
 CMD ["python", "app.py"]
 
-# docker run -d -p 8081:801 --name add_task_redis linhtran2023/add_task_redis:v07
+# docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11

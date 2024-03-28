@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 import redis
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
@@ -18,18 +18,16 @@ def index():
     get_value = request.args.get('get', default=1, type=int)
     get_value_str = request.args.get('text', default=1, type=str)
 
-
-    #if get_value > 0 and get_value != "":
     # Insert tự động dữ liệu vào queue
     for i in range(1, get_value):
-
         # Add Task theo cơ chế Messege queue theo redis 
         add_task("Message: " + str(i) + " - " + str(get_value_str))
        
-    return format(get_value)
+    return str(get_value)
 
 # Sử dụng prometheus_client để xuất các metric
 @app.route('/metrics')
+@metrics.do_not_track()
 def export_metrics():
     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
