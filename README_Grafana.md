@@ -49,40 +49,48 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 Telegraf is an open-source tool designed for collecting, processing, and sending metrics and data from various sources within a system for monitoring and analysis purposes. It supports gathering data from diverse inputs such as logs, services, system resources, and external sources like SNMP and Docker. Telegraf can then send this collected data to storage systems like InfluxDB or other monitoring systems using protocols such as Prometheus and Graphite. It's highly flexible and extensible, allowing users to customize data collection and processing according to their specific needs.
  
 
-#### Setup telegraf bằng Docker compose 
+#### Setup telegraf by Docker compose 
 
-#### File docker-comppose.yaml
-```bash
+### File Docker Compose Setup prometheus + telegraf
+
+```bash 
+
+# Lưu ý ở đây telegraf sẽ phải cùng lớp mạng với prometheus, vì telegraf hoạt động ở nội mạng với Docker
+
 version: '3'
 services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
   telegraf:
     image: telegraf:latest
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - prometheus  # Telegraf phụ thuộc vào Prometheus
+
 ```
 
-#### File telegraf.conf
+#### After check
 ```bash
-[agent]
-  interval = "10s"
-  round_interval = true
-  metric_batch_size = 1000
-  metric_buffer_limit = 10000
-  collection_jitter = "0s"
-  flush_interval = "10s"
-  flush_jitter = "0s"
+# Check ip telegraf in docker 
+root@serverlocal:~/telegraf.conf# docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS             PORTS                                       NAMES
+1226432280b2   telegraf:latest          "/entrypoint.sh tele…"   3 seconds ago   Up 2 seconds       
 
-[[outputs.prometheus_client]]
-  listen = ":8125"
+root@serverlocal:~/telegraf.conf# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 1226432280b2
 
-[[inputs.cpu]]
-  percpu = true
-  totalcpu = true
-  collect_cpu_time = false
-  report_active = false
+172.21.0.2
+
+root@serverlocal:~/telegraf.conf#
+
 ```
  
-### Step 3: Setup Prometheus
+### Step 3: Setup Prometheus ( So this step just for show setup only Prometheus, no need this step if u have use Step 2 for setup ).
 
 ```bash
 docker run -d -p 9090:9090 --name prometheus prom/prometheus
@@ -161,3 +169,6 @@ http://192.168.200.128:9090/targets?search=
 docker run -d -p 5000:5000 --name admiring_goldwasser linhtran2023/performance_test:v06
 
 ```
+
+----
+
