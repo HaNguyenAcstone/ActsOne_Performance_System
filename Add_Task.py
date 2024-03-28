@@ -9,24 +9,22 @@ queue_name = 'task_queue'
 def add_task(content_Input):
     redis_client.rpush(queue_name, content_Input)
 
-# Hàm lưu vào Redis Data
-def insert_data(key, value):
-    redis_client.set(key, value)
+
         
 @app.route('/message')
 def index():
     get_value = request.args.get('get', default=1, type=int)
+    get_value_str = request.args.get('text', default=1, type=str)
+
 
     #if get_value > 0 and get_value != "":
     # Insert tự động dữ liệu vào queue
     for i in range(1, get_value):
 
         # Add Task theo cơ chế Messege queue theo redis 
-        add_task("Message: " + str(i))
+        add_task("Message: " + str(i) + " - " + str(get_value_str))
         
-        # Lưu vào DB
-        insert_data("Message: ",   str(i))
-
+       
     return format(get_value)
 
 if __name__ == '__main__':
