@@ -144,8 +144,14 @@ scrape_configs:
 #### And then use this command 
 
 ```bash 
-root@serverlocal:~# docker cp prometheus.yml prometheus:/etc/prometheus/prometheus.yml
-root@serverlocal:~# docker restart prometheus
+# Lệnh lấy file từ Docker Container ra ngoài ( VD: 601280c779bc = CONTAINER ID )
+root@serverlocal:~# docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+
+# Tương tự copy ngược vào lại Container ( VD: 601280c779bc = CONTAINER ID )
+docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
+
+# Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
+root@serverlocal:~# docker restart 601280c779bc
 ```
 
 ### Setup 4: Setup config in Grafana for show the chart like user view
