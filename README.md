@@ -154,9 +154,6 @@ docker restart 601280c779bc
 
 ----
 
-
-----
-
 ### Note for fix 
 
 ```bash
