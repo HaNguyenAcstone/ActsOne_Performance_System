@@ -127,6 +127,17 @@ scrape_configs:
 
 ```
 
+
+----
+
+#### 6. Setup App for run Test Redis Stream 
+
+```bash 
+docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
+```
+
+----
+
 #### And then use this command 
 
 ```bash 
@@ -140,12 +151,5 @@ docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
 docker restart 601280c779bc
 ```
 
-----
-
-#### Setup App for run Test Redis Stream 
-
-```bash 
-docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
-```
 
 ----
