@@ -21,7 +21,7 @@ def process_tasks():
 def start_task_processing():
     threading.Thread(target=process_tasks).start()
 
-@app.route('/process_task')
+@app.route('/process')
 def index():
     #get_value = request.args.get('get', default=1, type=int)
     start_task_processing()

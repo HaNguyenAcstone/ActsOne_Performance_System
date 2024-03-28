@@ -8,8 +8,6 @@ queue_name = 'task_queue'
 # Add Task theo cơ chế Messege queue theo redis 
 def add_task(content_Input):
     redis_client.rpush(queue_name, content_Input)
-
-
         
 @app.route('/message')
 def index():
@@ -23,7 +21,6 @@ def index():
 
         # Add Task theo cơ chế Messege queue theo redis 
         add_task("Message: " + str(i) + " - " + str(get_value_str))
-        
        
     return format(get_value)
 
