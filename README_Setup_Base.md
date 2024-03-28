@@ -142,7 +142,7 @@ docker restart 601280c779bc
 
 ----
 
-#### Setup App for run Test Redis
+#### Setup App for run Test Redis Stream 
 
 ```bash 
 docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
