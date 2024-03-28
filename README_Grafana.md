@@ -47,44 +47,41 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 #### Telegraf is ?
 
 Telegraf is an open-source tool designed for collecting, processing, and sending metrics and data from various sources within a system for monitoring and analysis purposes. It supports gathering data from diverse inputs such as logs, services, system resources, and external sources like SNMP and Docker. Telegraf can then send this collected data to storage systems like InfluxDB or other monitoring systems using protocols such as Prometheus and Graphite. It's highly flexible and extensible, allowing users to customize data collection and processing according to their specific needs.
+ 
 
-#####
-```bash 
+#### Setup telegraf bằng Docker compose 
 
-# Setup telegraf
-root@serverlocal:~# apt-get install telegraf
-
-# Edit vào trong này để có đường dẫn Paths: / metrics
-root@serverlocal:~# nano /etc/telegraf/telegraf.conf
-
-# Tìm tới dòng này, bằng số 9273, thêm path = "metrics" vào
-# # Configuration for the Prometheus client to spawn
-[[outputs.prometheus_client]]
-#   ## Address to listen on
-    listen = ":9273"
-    path = "metrics"
-
-```
-
-#### Khi Setup thành công
+#### File docker-comppose.yaml
 ```bash
-
-root@serverlocal:~# sudo systemctl start telegraf
-
-root@serverlocal:~# systemctl status telegraf
-● telegraf.service - The plugin-driven server agent for reporting metrics into InfluxDB
-     Loaded: loaded (/lib/systemd/system/telegraf.service; enabled; vendor preset: enabled)
-     Active: active (running) since Wed 2024-03-27 10:51:16 UTC; 1min 50s ago
-       Docs: https://github.com/influxdata/telegraf
-   Main PID: 889 (telegraf)
-      Tasks: 8 (limit: 4515)
-     Memory: 200.8M
-        CPU: 1.875s
-     CGroup: /system.slice/telegraf.service
-             └─889 /usr/bin/telegraf -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf/telegraf.d
-
+version: '3'
+services:
+  telegraf:
+    image: telegraf:latest
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
 ```
 
+#### File telegraf.conf
+```bash
+[agent]
+  interval = "10s"
+  round_interval = true
+  metric_batch_size = 1000
+  metric_buffer_limit = 10000
+  collection_jitter = "0s"
+  flush_interval = "10s"
+  flush_jitter = "0s"
+
+[[outputs.prometheus_client]]
+  listen = ":8125"
+
+[[inputs.cpu]]
+  percpu = true
+  totalcpu = true
+  collect_cpu_time = false
+  report_active = false
+```
+ 
 ### Step 3: Setup Prometheus
 
 ```bash
@@ -125,7 +122,6 @@ scrape_configs:
       - targets: ["localhost:9090"]
 
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "prometheus"
   - job_name: "ActsOne Performance"
 
     # metrics_path defaults to '/metrics'
