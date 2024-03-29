@@ -11,7 +11,7 @@ docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 
 ### 2. Setup Container Advisor ( Plugin for get Metric in Docker's Container )
 ```bash
-docker run -d --name=container-advisor -p 9300:9300 prom/container-exporter
+#docker run -d --name=container-advisor -p 9300:9300 prom/container-exporter
 ```
 
 ----
@@ -141,10 +141,10 @@ docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
 #### And then use this command 
 
 ```bash 
-# Lệnh lấy file từ Docker Container ra ngoài ( VD: 601280c779bc = CONTAINER ID )
+# Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
 docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
 
-# Tương tự copy ngược vào lại Container ( VD: 601280c779bc = CONTAINER ID )
+# Command help copy file from local to Container ( VD: 601280c779bc = CONTAINER ID )
 docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
 
 # Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
@@ -160,7 +160,18 @@ docker exec -it 601280c779bc sh
 
 ```bash
 
-# Cái Container này cho chạy chung lớp mạng với prometheus
-prom/container-exporter
+# Command for get name of network layer --------------------------------------
+docker inspect -f '{{.NetworkSettings.Networks}}' my_container_id
+
+# EX for run 1 container with Network you want (--network=prometheus_default)
+docker run -d --name=container-advisor -p 9300:9300 --network=prometheus_default prom/container-exporter
+
+# Command for get ip inside Docker Container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11d293d6782
+
+# Command for chance the network for container u want ( 7432faf616e8 is Container ID)
+docker network connect prometheus_default 7432faf616e8
 
 ```
+
+docker run -d -p 9104:9104 -v /var/run/docker.sock:/var/run/docker.sock --name=docker-exporter prom/container-exporter:latest
