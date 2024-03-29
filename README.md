@@ -149,8 +149,10 @@ docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
 
 # Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
 docker restart 601280c779bc
-```
 
+# Command for join docker container 
+docker exec -it 601280c779bc sh
+```
 
 ----
 
