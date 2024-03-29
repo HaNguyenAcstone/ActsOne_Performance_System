@@ -10,18 +10,6 @@ queue = Queue(connection=redis_conn)
 # Tên của Redis Stream
 stream_name = 'task_stream_new'
 
-
-# Tên các nhóm
-group_names = ['group1', 'group2', 'group3']  # Thêm tên nhóm cần tạo vào đây
-
-# Tạo các nhóm cho Redis Stream
-for group_name in group_names:
-    try:
-        if not redis_conn.xinfo_groups(stream_name):
-            redis_conn.xgroup_create(stream_name, group_name, id='0', mkstream=True)
-    except Exception as e:
-        app.logger.error("Error while creating group '%s': %s", group_name, str(e))
-
 # Tên nhóm mà bạn muốn gửi message vào
 group_name = 'group1'
 
@@ -32,7 +20,10 @@ if not redis_conn.exists(stream_name):
 
 # Tạo hoặc kết nối message vào nhóm group1 trong Redis Stream
 try:
-    redis_conn.xgroup_create(stream_name, group_name, id='0', mkstream=True)
+    if not redis_conn.xinfo_groups(stream_name):
+        redis_conn.xgroup_create(stream_name, group_name, id='0', mkstream=True)
+    else:
+        redis_conn.xgroup_setid(stream_name, group_name, '0')
 except Exception as e:
     app.logger.error("Error while creating or connecting to group '%s': %s", group_name, str(e))
 
@@ -44,11 +35,9 @@ def index():
 
     try:
         # Thêm công việc vào Redis Stream
-        for i in range(1, get_value + 1):
+        for i in range(1, get_value):
             message = {'content': "Message: " + str(i) + " - " + str(get_value_str)}
             redis_conn.xadd(stream_name, message)
-            # Connect the message to the consumer group
-            redis_conn.xgroup_setid(stream_name, group_name, '0')
 
         return str(get_value)
 
