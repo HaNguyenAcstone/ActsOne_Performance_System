@@ -6,7 +6,7 @@ import time
 
 app = Flask(__name__)
 
-redis_client = redis.Redis(host='192.168.200.128', port=6379, db=0)
+redis_client = redis.Redis(host='192.168.2.39', port=6379, db=0)
 stream_name = 'task_stream_new'
 
 # Tạo một hàng đợi để lưu trữ các công việc trước khi gửi chúng vào Redis Stream
@@ -18,8 +18,7 @@ def send_tasks_to_stream():
         if not task_queue.empty():
             task = task_queue.get()
             redis_client.xadd(stream_name, {'content': task})
-        time.sleep(1)  # Thời gian nghỉ giữa các lần kiểm tra hàng đợi
-
+       
 # Khởi tạo một luồng mới để gửi công việc vào Redis Stream
 send_thread = threading.Thread(target=send_tasks_to_stream)
 send_thread.daemon = True
@@ -40,8 +39,6 @@ def receive_tasks_from_stream():
                         print("Received:", content)  # Thay thế bằng xử lý dữ liệu của bạn
                     else:
                         print("Message does not contain 'content' key:", message)
-       
-
 
 # Khởi tạo một luồng mới để nhận công việc từ Redis Stream
 receive_thread = threading.Thread(target=receive_tasks_from_stream)
@@ -59,7 +56,7 @@ def index():
     get_value_str = request.args.get('text', default=1, type=str)
 
     # Thêm các công việc vào hàng đợi
-    for i in range(1, get_value + 1):
+    for i in range(1, get_value):
         add_task("Message: " + str(i) + " - " + str(get_value_str))
 
     return str(get_value)
