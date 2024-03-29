@@ -19,3 +19,29 @@ Cơ chế hoạt động của stream data thường được triển khai trong
 ### EN
 
 The stream data mechanism involves continuous collection, processing, and analysis of data from various sources in real-time or near-real-time, enabling immediate insights and responses to emerging patterns or events. Technologies like Apache Kafka, Apache Flink, and Apache Spark Streaming are commonly used for stream data processing.
+
+
+-----
+Dưới đây là cơ chế hoạt động chi tiết của việc sử dụng nhóm trong Redis Stream và cách consumer đọc và xử lý các message từ nhóm đó:
+
+1. **Tạo nhóm trong Redis Stream:**
+   - Bạn sử dụng lệnh `xgroup_create` để tạo một nhóm mới trong Redis Stream.
+   - Khi tạo nhóm, bạn cần chỉ định tên của Redis Stream, tên nhóm bạn muốn tạo, id của message đầu tiên mà nhóm sẽ bắt đầu đọc (trong trường hợp này là `'0'`), và có nên tạo stream nếu nó chưa tồn tại hay không (đối với đối số `mkstream`).
+   - Mã của bạn đã tạo một số nhóm với tên `'group1'`, `'group2'`, ..., `'group5'`.
+
+2. **Gửi message vào Redis Stream:**
+   - Bạn sử dụng lệnh `xadd` để thêm message vào Redis Stream.
+   - Mỗi message có một ID duy nhất và một số thuộc tính (ví dụ: nội dung của message).
+   - Trong mã của bạn, khi route `/message` được gọi, bạn thêm message vào Redis Stream với nội dung được chỉ định từ tham số `text`.
+
+3. **Consumer đọc message từ nhóm trong Redis Stream:**
+   - Consumer sử dụng lệnh `xreadgroup` để đọc các message từ một nhóm cụ thể trong Redis Stream.
+   - Consumer phải cung cấp tên của nhóm mà họ muốn đọc, tên của consumer và Redis Stream mà nhóm đó thuộc về.
+   - Khi consumer đọc message từ nhóm, các message đó sẽ không còn tồn tại trong nhóm đó nữa.
+   - Consumer có thể chỉ định số lượng message cần đọc (`count`).
+   - Sau khi consumer đã xử lý message, họ có thể đánh dấu message đó đã được xử lý bằng cách sử dụng lệnh `xack`.
+  
+4. **Xử lý message:**
+   - Consumer xử lý message theo cách mà họ muốn. Ví dụ: lưu vào cơ sở dữ liệu, thực hiện tính toán, gửi thông báo, vv.
+
+Quá trình này lặp đi lặp lại, với các producer thêm message vào Redis Stream và các consumer đọc và xử lý message từ các nhóm cụ thể trong stream đó. Điều này tạo ra một hệ thống linh hoạt và có khả năng mở rộng để xử lý các nhiệm vụ đồng thời.

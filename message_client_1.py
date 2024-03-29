@@ -10,13 +10,9 @@ queue = Queue(connection=redis_conn)
 # Tên của Redis Stream
 stream_name = 'task_stream_new'
 
-# Tạo Redis Stream (nếu chưa tồn tại)
-if not redis_conn.exists(stream_name):
-    # Tạo Redis Stream
-    redis_conn.xadd(stream_name, {'init': 'start'})
 
 # Tên các nhóm
-group_names = ['group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8', 'group9', 'group10']  # Thêm tên nhóm cần tạo vào đây
+group_names = ['group1', 'group2', 'group3']  # Thêm tên nhóm cần tạo vào đây
 
 # Tạo các nhóm cho Redis Stream
 for group_name in group_names:
@@ -26,6 +22,20 @@ for group_name in group_names:
     except Exception as e:
         app.logger.error("Error while creating group '%s': %s", group_name, str(e))
 
+# Tên nhóm mà bạn muốn gửi message vào
+group_name = 'group1'
+
+# Tạo Redis Stream (nếu chưa tồn tại)
+if not redis_conn.exists(stream_name):
+    # Tạo Redis Stream
+    redis_conn.xadd(stream_name, {'init': 'start'})
+
+# Tạo hoặc kết nối message vào nhóm group1 trong Redis Stream
+try:
+    redis_conn.xgroup_create(stream_name, group_name, id='0', mkstream=True)
+except Exception as e:
+    app.logger.error("Error while creating or connecting to group '%s': %s", group_name, str(e))
+
 # API gửi message
 @app.route('/message')
 def index():
@@ -34,13 +44,18 @@ def index():
 
     try:
         # Thêm công việc vào Redis Stream
-        for i in range(1, get_value):
-            redis_conn.xadd(stream_name, {'content': "Message: " + str(i) + " - " + str(get_value_str)})
+        for i in range(1, get_value + 1):
+            message = {'content': "Message: " + str(i) + " - " + str(get_value_str)}
+            redis_conn.xadd(stream_name, message)
+            # Connect the message to the consumer group
+            redis_conn.xgroup_setid(stream_name, group_name, '0')
+
+        return str(get_value)
+
     except Exception as e:
         # Ghi log nếu có lỗi xảy ra
         app.logger.error("Error while adding task to Redis Stream: %s", str(e))
-
-    return str(get_value)
+        return "Error occurred while adding message to group.", 500
 
 # Sử dụng prometheus_client để xuất các metric
 if __name__ == '__main__':
