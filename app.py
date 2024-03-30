@@ -3,7 +3,6 @@ from redis import Redis
 from rq import Queue
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
-import psutil
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app) # Dùng để ghi Logs
