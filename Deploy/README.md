@@ -10,3 +10,20 @@ alias k=kubectl
 ```bash
 kubectl rollout restart deployment actsone-message
 ```
+
+
+```bash
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: promtail-pods-reader-binding
+subjects:
+- kind: ServiceAccount
+  name: promtail-service-account
+  namespace: promtail-namespace
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: promtail-pods-reader
+
+```

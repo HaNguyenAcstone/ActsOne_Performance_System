@@ -56,46 +56,61 @@ table_manager:
 
 ### 2. Setup promtail 
 
-```bash
-nano docker-compose.yaml 
-```
+* DaemonSet
 
 ```bash 
-version: '3'
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: promtail-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: promtail
+  template:
+    metadata:
+      labels:
+        app: promtail
+    spec:
+      containers:
+      - name: promtail
+        image: grafana/promtail:latest  # Thay đổi tag image tùy theo phiên bản mong muốn
+        args:
+        - -config.file=/etc/promtail/promtail-config.yaml
+        volumeMounts:
+        - name: promtail-config
+          mountPath: /etc/promtail
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: promtail-config
+        configMap:
+          name: promtail-configmap
 
-services:
-  promtail:
-    image: grafana/promtail:latest
-    volumes:
-      - /var/log:/var/log
-      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
 ```
+
+* ConfigMap
 
 ```bash
-nano promtail-config.yaml
-```
-
-```bash 
-server:
-  http_listen_port: 9080
-  grpc_listen_port: 0
-
-positions:
-  filename: /tmp/positions.yaml
-
-clients:
-  - url: http://loki:3100/loki/api/v1/push
-
-scrape_configs:
-  - job_name: system
-    static_configs:
-      - targets:
-          - localhost
-        labels:
-          job: varlogs
-          __path__: /var/log/*log
-```
-
-```bash
-docker-compose up -d
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promtail-configmap
+data:
+  promtail-config.yaml: |-
+    server:
+      http_listen_port: 9080
+    positions:
+      filename: /tmp/positions.yaml
+    clients:
+      - url: http://192.168.10.133:3100/loki/api/v1/push  # Cập nhật địa chỉ Loki của bạn
+    scrape_configs:
+      - job_name: kubernetes-pods
+        static_configs:
+        - targets:
+            - localhost
+          labels:
+            job: varlogs
+            __path__: /var/log/*/*.log
 ```
