@@ -107,6 +107,7 @@ data:
       - url: http://192.168.10.133:3100/loki/api/v1/push  # Cập nhật địa chỉ Loki của bạn
     scrape_configs:
       - job_name: kubernetes-pods
+
         static_configs:
         - targets:
             - localhost
