@@ -4,4 +4,3 @@ prometheus-flask-exporter
 redis
 rq
 flask_prometheus_metrics
-psutil
