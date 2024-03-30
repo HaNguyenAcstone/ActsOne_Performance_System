@@ -4,28 +4,17 @@ from rq import Queue
 
 app = Flask(__name__)
 
-redis_conn = Redis(host='192.168.2.39', port=6379, db=0)
+redis_conn = Redis(host='192.168.10.133', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
-stream_name = 'task_stream_new'
-
-# Tên nhóm mà bạn muốn gửi message vào
-group_name = 'group1'
+stream_name = 'Redis_Streams_AcstOne'
 
 # Tạo Redis Stream (nếu chưa tồn tại)
 if not redis_conn.exists(stream_name):
     # Tạo Redis Stream
     redis_conn.xadd(stream_name, {'init': 'start'})
 
-# Tạo hoặc kết nối message vào nhóm group1 trong Redis Stream
-try:
-    if not redis_conn.xinfo_groups(stream_name):
-        redis_conn.xgroup_create(stream_name, group_name, id='0', mkstream=True)
-    else:
-        redis_conn.xgroup_setid(stream_name, group_name, '0')
-except Exception as e:
-    app.logger.error("Error while creating or connecting to group '%s': %s", group_name, str(e))
 
 # API gửi message
 @app.route('/message')

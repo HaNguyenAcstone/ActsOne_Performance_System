@@ -11,7 +11,7 @@ class WebsiteUser(HttpUser):
     #     })
 
     def on_start(self):
-        self.client.get("/message?get=2&text=Hung")
+        self.client.get("/message?get=2&text=Hieu")
     
     @task
     def index(self):

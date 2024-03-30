@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-streams-act
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: redis-streams-act
+  template:
+    metadata:
+      labels:
+        app: redis-streams-act
+    spec:
+      containers:
+      - name: redis-streams-act
+        image: linhtran2023/actsone_performance_system:v02
+        resources: {}
+      restartPolicy: Always

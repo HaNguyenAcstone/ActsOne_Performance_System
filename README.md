@@ -9,9 +9,9 @@ docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 
 ----
 
-### 2. Setup Container Advisor ( Plugin for get Metric in Docker's Container )
+### 2. Setup Container Exporte ( Plugin for get Metric in Docker's Container )
 ```bash
-#docker run -d --name=container-advisor -p 9300:9300 prom/container-exporter
+docker run -d -p 9104:9104 -v /var/run/docker.sock:/var/run/docker.sock --name=docker-exporter prom/container-exporter:latest
 ```
 
 ----
@@ -47,7 +47,6 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 ### 4. Setup Redis ( Database No SQL )
 
 ```bash
-
 version: '3'
 
 services:
@@ -69,8 +68,10 @@ root@serverlocal:~# docker ps
 CONTAINER ID   IMAGE                               COMMAND                  CREATED              STATUS              PORTS                                       NAMES
 1fcd6b7e85b3   redis                               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:6379->6379/tcp
 
-```
+# Or Also can use this for fast Setup
+docker run --name redis -d -p 6379:6379 redis
 
+```
 ----
 
 ### 5. Setup Protheums ( Plugin for get all Metrics from Project want see the performace )
@@ -82,7 +83,7 @@ docker run -d -p 9090:9090 --name prometheus prom/prometheus
 #### Check IP have connnect with ( targets service )
 http://192.168.200.128:9090/targets?search=
 
-#### Add more Target: Edit this file Prometheus.yaml
+#### Add more Target: Edit this file prometheus.yaml
 ```bash
 # my global config
 global:
@@ -107,33 +108,27 @@ rule_files:
 scrape_configs:
 
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "prometheus"
-
+  - job_name: "ActsOne Message"
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["192.168.10.133:9100:5000"]
 
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: "ActsOne Performance"
-
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-
     static_configs:
       # In here you can put more ip for check performance, in here I trust make example
-      - targets: ["localhost:9090", "1.22.3.4:9100"] 
-
+      - targets: ["192.168.10.133:9100:9090"] 
 ```
-
 
 ----
 
 #### 6. Setup App for run Test Redis Stream 
 
 ```bash 
-docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
+docker run -d -p 5001:5001 --name linhtran2023/actsone_performance_system:v02
 ```
 
 ----
@@ -172,6 +167,78 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11
 # Command for chance the network for container u want ( 7432faf616e8 is Container ID)
 docker network connect prometheus_default 7432faf616e8
 
+
 ```
 
-docker run -d -p 9104:9104 -v /var/run/docker.sock:/var/run/docker.sock --name=docker-exporter prom/container-exporter:latest
+
+
+ 
+docker run -d -p 80:80 --name nginx -v /root/nginx.conf:/etc/nginx/nginx.conf nginx
+
+
+```bash
+http {
+    upstream flask_servers {
+        server actsone_performance_system:5000;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://flask_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # Đường dẫn phụ /admin sẽ được điều hướng đến ứng dụng Flask
+        # Có thể thay đổi thành các đường dẫn khác tùy theo yêu cầu của bạn
+        location /admin {
+            proxy_pass http://flask_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # Đường dẫn phụ /api sẽ được điều hướng đến ứng dụng Flask
+        # Có thể thay đổi thành các đường dẫn khác tùy theo yêu cầu của bạn
+        location /api {
+            proxy_pass http://flask_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # Thêm phần "events" vào đây
+        events {
+            worker_connections  1024;  # Số lượng kết nối tối đa mà mỗi worker process có thể xử lý
+        }
+    }
+}
+
+
+http {
+    upstream flask_servers {
+        server actsone_performance_system:5000;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://flask_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+}
+
+```
+
+ docker run -d -p 80:80 --name nginx -v /root/nginx.conf:/etc/nginx/nginx.conf nginx
