@@ -22,3 +22,18 @@ spec:
       restartPolicy: Always
 ---
 # Service
+apiVersion: v1
+kind: Service
+metadata:
+spec:
+  ports:
+  - nodePort: 30000
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: actsone-message
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
