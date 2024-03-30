@@ -4,10 +4,9 @@ from rq import Queue
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
 
-
 app = Flask(__name__)
 metrics = PrometheusMetrics(app) # Dùng để ghi Logs
-redis_conn = Redis(host='192.168.10.133', port=32368, db=0)
+redis_conn = Redis(host='192.168.10.133', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
@@ -21,10 +20,10 @@ if not redis_conn.exists(stream_name):
 # Metrics cho băng thông (nếu có)
 
 # API just get request from client ( 1 mil transaction per second, no message )
-@app.route('/just_get_request')
+@app.route('/just_send_request')
 def just_get_request():
     # Không trả về bất kỳ phản hồi nào cho client
-    return '', 204
+    return '', 200
 
 # API just send message and not save ( 100,000 transaction per second, with simple message )
 @app.route('/not_save_message')

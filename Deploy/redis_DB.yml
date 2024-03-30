@@ -23,6 +23,8 @@ spec:
     requests:
       storage: 5Gi
 
+---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -45,7 +47,7 @@ metadata:
   name: redis
 spec:
   serviceName: "redis"
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -87,3 +89,7 @@ spec:
   selector:
     app: redis
   type: NodePort
+
+
+---
+# Deployment, có 1 Tips, Khi nhân bảng pod redis lên, nhận dữ liệu bị thiếu
