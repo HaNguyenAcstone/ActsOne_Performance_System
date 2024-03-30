@@ -147,13 +147,6 @@ docker restart 601280c779bc
 
 # Command for join docker container 
 docker exec -it 601280c779bc sh
-```
-
-----
-
-### Note for fix 
-
-```bash
 
 # Command for get name of network layer --------------------------------------
 docker inspect -f '{{.NetworkSettings.Networks}}' my_container_id
@@ -167,78 +160,4 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11
 # Command for chance the network for container u want ( 7432faf616e8 is Container ID)
 docker network connect prometheus_default 7432faf616e8
 
-
 ```
-
-
-
- 
-docker run -d -p 80:80 --name nginx -v /root/nginx.conf:/etc/nginx/nginx.conf nginx
-
-
-```bash
-http {
-    upstream flask_servers {
-        server actsone_performance_system:5000;
-    }
-
-    server {
-        listen 80;
-
-        location / {
-            proxy_pass http://flask_servers;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        # Đường dẫn phụ /admin sẽ được điều hướng đến ứng dụng Flask
-        # Có thể thay đổi thành các đường dẫn khác tùy theo yêu cầu của bạn
-        location /admin {
-            proxy_pass http://flask_servers;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        # Đường dẫn phụ /api sẽ được điều hướng đến ứng dụng Flask
-        # Có thể thay đổi thành các đường dẫn khác tùy theo yêu cầu của bạn
-        location /api {
-            proxy_pass http://flask_servers;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        # Thêm phần "events" vào đây
-        events {
-            worker_connections  1024;  # Số lượng kết nối tối đa mà mỗi worker process có thể xử lý
-        }
-    }
-}
-
-
-http {
-    upstream flask_servers {
-        server actsone_performance_system:5000;
-    }
-
-    server {
-        listen 80;
-
-        location / {
-            proxy_pass http://flask_servers;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-}
-
-```
-
- docker run -d -p 80:80 --name nginx -v /root/nginx.conf:/etc/nginx/nginx.conf nginx

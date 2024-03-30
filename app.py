@@ -8,13 +8,12 @@ redis_conn = Redis(host='192.168.10.133', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
-stream_name = 'task_stream_new'
+stream_name = 'Redis_Streams_AcstOne'
 
 # Tạo Redis Stream (nếu chưa tồn tại)
 if not redis_conn.exists(stream_name):
     # Tạo Redis Stream
     redis_conn.xadd(stream_name, {'init': 'start'})
-
 
 # API gửi message
 @app.route('/message')
