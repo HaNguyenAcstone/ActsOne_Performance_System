@@ -1,5 +1,7 @@
 ### 1. Setup Loki 
 
+* So have Note: Loki will save all logs from Promtail, so this one with use many storage, so we need control and clear log in some time.
+
 ```bash
 # So my loki-config.yaml stay in thí url /root/loki )
 
