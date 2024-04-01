@@ -1,4 +1,5 @@
 # Deployment
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,28 +23,18 @@ spec:
       containers:
       - name: api-redis-streams
         image: linhtran2023/actsone_performance_system:v09
-        resources: {}
+        resources:
+          limits:
+            cpu: "2"  # Giới hạn CPU tối đa là 2 core
+            memory: "2Gi"  # Giới hạn bộ nhớ tối đa là 2GB
+          requests:
+            cpu: 200m      # Yêu cầu tối thiểu CPU là 0.2 core
+            memory: 200m   # Yêu cầu tối thiểu bộ nhớ là 200MB
       restartPolicy: Always
+
 
 ---
 # Service
-apiVersion: v1
-kind: Service
-metadata:
-spec:
-  ports:
-  - nodePort: 30000
-    port: 5000
-    protocol: TCP
-    targetPort: 5000
-  selector:
-    app: api-redis-streams
-  sessionAffinity: None
-  type: NodePort
-
-
----
-
 apiVersion: v1
 kind: Service
 metadata:
