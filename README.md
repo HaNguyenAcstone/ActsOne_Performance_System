@@ -128,7 +128,7 @@ scrape_configs:
 #### 6. Setup App for run Test Redis Stream 
 
 ```bash 
-docker run -d -p 5001:5001 --name linhtran2023/actsone_performance_system:v02
+docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v11
 ```
 
 ----
