@@ -2,24 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-streams-act
+  name: api-redis-streams
   namespace: default
 spec:
-  replicas: 1
-  revisionHistoryLimit: 10
+  replicas: 10
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: redis-streams-act
+      app: api-redis-streams
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
   template:
     metadata:
       labels:
-        app: redis-streams-act
+        app: api-redis-streams
     spec:
       containers:
-      - name: redis-streams-act
+      - name: api-redis-streams
         image: linhtran2023/actsone_performance_system:v09
         resources: {}
       restartPolicy: Always
+
 ---
 # Service
 apiVersion: v1
@@ -32,10 +37,25 @@ spec:
     protocol: TCP
     targetPort: 5000
   selector:
-    app: actsone-message
+    app: api-redis-streams
   sessionAffinity: None
   type: NodePort
-status:
-  loadBalancer: {}
+
 
 ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-redis-streams
+  namespace: default
+spec:
+  selector:
+    app: api-redis-streams
+  ports:
+  - nodePort: 30000
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  type: NodePort
+

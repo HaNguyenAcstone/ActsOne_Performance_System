@@ -1,12 +1,12 @@
 from flask import Flask, request
 from redis import Redis
 from rq import Queue
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
+# from prometheus_flask_exporter import PrometheusMetrics
+# from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
 
 app = Flask(__name__)
-metrics = PrometheusMetrics(app) # Dùng để ghi Logs
-redis_conn = Redis(host='192.168.10.133', port=6379, db=0)
+#metrics = PrometheusMetrics(app) # Dùng để ghi Logs
+redis_conn = Redis(host='192.168.2.39', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
@@ -56,11 +56,11 @@ def save_message():
         app.logger.error("Error while adding task to Redis Stream: %s", str(e))
         return "Error occurred while adding message to group.", 500
 
-# Sử dụng prometheus_client để xuất các metric
-@app.route('/metrics')
-@metrics.do_not_track()
-def export_metrics():
-    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+# # Sử dụng prometheus_client để xuất các metric
+# @app.route('/metrics')
+# @metrics.do_not_track()
+# def export_metrics():
+#     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 # Sử dụng prometheus_client để xuất các metric
 if __name__ == '__main__':

@@ -4,7 +4,6 @@
 
 ```bash
 # So my loki-config.yaml stay in thí url /root/loki )
-
 docker run --name loki -d -v /root/loki:/mnt/config -p 3100:3100 grafana/loki:2.9.1
 
 nano loki-config.yaml
@@ -54,7 +53,6 @@ chunk_store_config:
 table_manager:
   retention_deletes_enabled: false
   retention_period: 0
-
 ```
 
 -----
@@ -63,10 +61,8 @@ table_manager:
 
 Link Docs Detail: https://grafana.com/docs/loki/latest/send-data/promtail/installation/
 
-* Create value file 
-
 ```bash
-helm repo update
+snap install helm --classic
 
 helm repo add grafana https://grafana.github.io/helm-charts
 
