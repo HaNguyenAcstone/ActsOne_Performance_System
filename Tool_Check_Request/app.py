@@ -35,6 +35,6 @@ def request_lv_3(qty):
         make_request(url)
 
 # Run test request
-request_lv_3(1000)
+request_lv_3(10)
 
 
