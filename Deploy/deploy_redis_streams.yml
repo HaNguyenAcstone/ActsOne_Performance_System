@@ -1,5 +1,4 @@
 # Deployment
-# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,7 +21,11 @@ spec:
     spec:
       containers:
       - name: api-redis-streams
-        image: linhtran2023/actsone_performance_system:v09
+        image: linhtran2023/actsone_performance_system:v11
+         # Cấu hình sử dụng thời gian của máy chủ
+        env:
+        - name: TZ
+          value: "Asia/Ho_Chi_Minh"  # Thay đổi "Asia/Ho_Chi_Minh" bằng múi giờ của bạn
         resources:
           limits:
             cpu: "2"  # Giới hạn CPU tối đa là 2 core
@@ -31,7 +34,6 @@ spec:
             cpu: 200m      # Yêu cầu tối thiểu CPU là 0.2 core
             memory: 200m   # Yêu cầu tối thiểu bộ nhớ là 200MB
       restartPolicy: Always
-
 
 ---
 # Service
