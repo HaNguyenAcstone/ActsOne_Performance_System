@@ -33,11 +33,11 @@ if __name__ == '__main__':
 
     # Produce data by selecting random values from these lists.
     topic = "Actsone_ms"
-    user_ids = ['eabara', 'jsmith', 'sgarcia', 'jbernard', 'htanaka', 'awalther']
+    user_ids = ['Linh', 'BaoAnh', 'Khai', 'Linh2', 'BaoAnh2', 'Khai2']
     products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
 
     count = 0
-    for _ in range(1000):
+    for _ in range(10000000):
 
         user_id = choice(user_ids)
         product = choice(products)
