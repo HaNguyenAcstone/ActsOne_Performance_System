@@ -5,6 +5,7 @@ from configparser import ConfigParser
 from confluent_kafka import Consumer, OFFSET_BEGINNING
 
 if __name__ == '__main__':
+    
     # Parse the command line.
     parser = ArgumentParser()
     parser.add_argument('config_file', type=FileType('r'))
@@ -59,7 +60,8 @@ if __name__ == '__main__':
                     print("Consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
                         topic=msg.topic(), key=key, value=value))
                 else:
-                    print("Got Message")
+                    print("Consumed event from topic {topic}: key = {key} value = {value}".format(
+                        topic=msg.topic(), key=key, value=value))
     except KeyboardInterrupt:
         pass
     finally:
