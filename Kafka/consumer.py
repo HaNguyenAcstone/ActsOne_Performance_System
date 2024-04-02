@@ -55,8 +55,11 @@ if __name__ == '__main__':
                 else:
                     value = None
 
-                print("Consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
-                    topic=msg.topic(), key=key, value=value))
+                if key is not None and value is not None:
+                    print("Consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
+                        topic=msg.topic(), key=key, value=value))
+                else:
+                    print("Got Message")
     except KeyboardInterrupt:
         pass
     finally:
