@@ -45,9 +45,10 @@ if __name__ == '__main__':
                 print("ERROR: %s".format(msg.error()))
             else:
                 # Extract the (optional) key and value, and print.
-
+                key = msg.key().decode('utf-8') if msg.key() is not None else None
+                value = msg.value().decode('utf-8') if msg.value() is not None else None
                 print("Consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
-                    topic=msg.topic(), key=msg.key().decode('utf-8'), value=msg.value().decode('utf-8')))
+                    topic=msg.topic(), key=key, value=value))
     except KeyboardInterrupt:
         pass
     finally:
