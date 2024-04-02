@@ -128,7 +128,7 @@ scrape_configs:
 #### 6. Setup App for run Test Redis Stream 
 
 ```bash 
-docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v11
+
 ```
 
 ----
@@ -136,6 +136,9 @@ docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_
 ### Command usual use 
 
 ```bash 
+
+docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v12
+
 # Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
 docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
 

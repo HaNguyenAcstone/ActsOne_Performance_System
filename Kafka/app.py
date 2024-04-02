@@ -5,14 +5,16 @@ from configparser import ConfigParser
 
 app = Flask(__name__)
 
-def get_kafka_producer(config_file):
-    config_parser = ConfigParser()
-    config_parser.read(config_file)
-    config = dict(config_parser['default'])
-    producer = Producer(config)
+def get_kafka_producer(bootstrap_servers, group_id):
+    producer_config = {
+        'bootstrap.servers': bootstrap_servers,
+        'group.id': group_id
+    }
+    producer = Producer(producer_config)
     return producer
 
-producer = get_kafka_producer('getting_started.ini')
+# Truyền vào thông số bootstrap_servers và group_id
+producer = get_kafka_producer("localhost:9092", "python_example_group_1")
 
 fixed_json_message = {
     "data": {
@@ -39,4 +41,4 @@ def send_message():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import sys
 from random import choice
 from argparse import ArgumentParser, FileType
