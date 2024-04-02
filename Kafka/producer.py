@@ -45,5 +45,5 @@ if __name__ == '__main__':
         count += 1
 
     # Block until the messages are sent.
-    producer.poll(100)
+    producer.poll(0)
     producer.flush()
