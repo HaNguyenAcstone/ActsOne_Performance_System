@@ -36,14 +36,15 @@ if __name__ == '__main__':
     user_ids = ['Linh', 'BaoAnh', 'Khai', 'Linh2', 'BaoAnh2', 'Khai2']
     products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
 
-    count = 0
-    for _ in range(200000):
+    for i in range(10):
+        count = 0
+        for _ in range(100000):
 
-        user_id = choice(user_ids)
-        product = choice(products)
-        producer.produce(topic, product, user_id, callback=delivery_callback)
-        count += 1
+            user_id = choice(user_ids)
+            product = choice(products)
+            producer.produce(topic, product, user_id, callback=delivery_callback)
+            count += 1
 
-    # Block until the messages are sent.
-    producer.poll(0)
-    producer.flush()
+        # Block until the messages are sent.
+        producer.poll(0)
+        producer.flush()
