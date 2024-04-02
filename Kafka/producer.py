@@ -37,7 +37,7 @@ if __name__ == '__main__':
     products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
 
     count = 0
-    for _ in range(100000):
+    for _ in range(500000):
 
         user_id = choice(user_ids)
         product = choice(products)
