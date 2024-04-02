@@ -31,12 +31,14 @@ if __name__ == '__main__':
             print("Produced event to topic {topic}: key = {key:12} value = {value:12}".format(
                 topic=msg.topic(), key=msg.key().decode('utf-8'), value=msg.value().decode('utf-8')))
 
-    # Produce data by selecting random values from these lists.
-    topic = "ActsOnes_2"
-    user_ids = ['Linh', 'BaoAnh', 'Khai', 'Linh2', 'BaoAnh2', 'Khai2']
-    products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
+   
 
     for i in range(10):
+
+         # Produce data by selecting random values from these lists.
+        topic = "ActsOnes_2"
+        user_ids = ['Linh', 'BaoAnh', 'Khai', 'Linh2', 'BaoAnh2', 'Khai2']
+        products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
         count = 0
         for _ in range(100000):
 
