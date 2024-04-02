@@ -31,14 +31,18 @@ fixed_json_message = {
 
 @app.route('/send_message')
 def send_message():
+    get_param = request.args.get('get')
     topic = 'ActsOnes_2'
 
-    try:
-        producer.produce(topic, json.dumps(fixed_json_message))
-        producer.flush()
-        return jsonify({'success': True}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    if get_param == '1':
+        try:
+            producer.produce(topic, json.dumps(fixed_json_message))
+            producer.flush()
+            return jsonify({'success': True}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Invalid GET parameter'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
