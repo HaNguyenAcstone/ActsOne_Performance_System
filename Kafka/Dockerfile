@@ -14,6 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Khởi chạy ứng dụng
-CMD ["python", "app.py getting_started.ini"]
+CMD ["python", "app.py"]
 
 # docker run -d -p 5000:5000 --name add_task_redis linhtran2023/add_task_redis:v11
