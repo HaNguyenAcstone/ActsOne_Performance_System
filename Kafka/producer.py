@@ -37,7 +37,7 @@ if __name__ == '__main__':
     products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
 
     count = 0
-    for _ in range(10):
+    for _ in range(1000):
 
         user_id = choice(user_ids)
         product = choice(products)
@@ -45,5 +45,5 @@ if __name__ == '__main__':
         count += 1
 
     # Block until the messages are sent.
-    producer.poll(10000)
+    producer.poll(100)
     producer.flush()
