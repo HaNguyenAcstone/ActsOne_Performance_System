@@ -29,7 +29,7 @@ fixed_json_message = {
 
 @app.route('/send_message')
 def send_message():
-    topic = 'Actsone_ms'
+    topic = 'ActsOnes_2'
 
     try:
         producer.produce(topic, json.dumps(fixed_json_message))
