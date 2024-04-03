@@ -9,4 +9,4 @@ producer = Producer(conf)
 for i in range(15):
     
     time.sleep(2)
-    producer.produce("minikube-topic", key="message", value="Linh 2" + i)
+    producer.produce("minikube-topic", key="message", value="Linh 2")
