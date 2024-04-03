@@ -1,5 +1,8 @@
-https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
+Research's Link: https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
 
+### Setup: zookeeper-deployment
+
+* Node: Need setting about Storage when deploy in Production.
 
 ```bash
 apiVersion: apps/v1
@@ -30,7 +33,7 @@ spec:
           value: "2000"
 ```
 
-----
+### Service: zookeeper-service
 
 ``` bash
 
@@ -49,6 +52,10 @@ spec:
 ``` 
 
 ----
+
+### Setup: kafka-deployment
+
+#### Need pull images before deploy by K8S, Images is Large Size
 
 ```bash
 docker pull confluentinc/cp-kafka:7.0.1
@@ -94,7 +101,7 @@ spec:
 
 ```
 
-----
+### Service: zookeeper-service
 
 ```bash
 apiVersion: v1
@@ -130,18 +137,8 @@ spec:
 
 ```
 
-
-----
-
-
-kubectl create deployment python-repl --image=python:3.9 -- /bin/bash -i -t
-
-
 ---
 
-	>>> from confluent_kafka import Producer
-  >>> import socket
-  >>> conf = {"bootstrap.servers": "kafka-service:9092", "client.id": socket.gethostname()}
-  >>> producer = Producer(conf)
-  >>> producer.produce("minikube-topic", key="message", value="message_from_python_producer")
- 
+### Note: 
+
+Ip of 
