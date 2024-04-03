@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-redis-streams
+  name: api-producer-kafka
   namespace: default
 spec:
   replicas: 10
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: api-redis-streams
+      app: api-producer-kafka
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,22 +17,15 @@ spec:
   template:
     metadata:
       labels:
-        app: api-redis-streams
+        app: api-producer-kafka
     spec:
       containers:
-      - name: api-redis-streams
-        image: linhtran2023/actsone_performance_system:v17
+      - name: api-producer-kafka
+        image: linhtran2023/actsone_performance_system:v18
          # Cấu hình sử dụng thời gian của máy chủ
         env:
         - name: TZ
           value: "Asia/Ho_Chi_Minh"  # Thay đổi "Asia/Ho_Chi_Minh" bằng múi giờ của bạn
-        resources:
-          limits:
-            cpu: "2"  # Giới hạn CPU tối đa là 2 core
-            memory: "2Gi"  # Giới hạn bộ nhớ tối đa là 2GB
-          requests:
-            cpu: 200m      # Yêu cầu tối thiểu CPU là 0.2 core
-            memory: 200m   # Yêu cầu tối thiểu bộ nhớ là 200MB
       restartPolicy: Always
 
 ---
@@ -40,13 +33,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-redis-streams
+  name: api-producer-kafka
   namespace: default
 spec:
   selector:
-    app: api-redis-streams
+    app: api-producer-kafka
   ports:
-  - nodePort: 30000
+  - nodePort: 30001
     port: 5000
     protocol: TCP
     targetPort: 5000

@@ -137,7 +137,7 @@ scrape_configs:
 
 ```bash 
 
-docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v12
+docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v19
 
 # Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
 docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml

@@ -21,7 +21,7 @@ sudo ufw disable
 vi /etc/hosts
 
 # In here put your Ip server
-192.168.2.39 master master.demo.local
+192.168.200.128  master master.demo.local
 
 # Create rke2
 mkdir -p /etc/rancher/rke2/
