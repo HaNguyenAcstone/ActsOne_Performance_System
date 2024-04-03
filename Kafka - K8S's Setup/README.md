@@ -141,4 +141,24 @@ spec:
 
 ### Note: 
 
-Ip of 
+IP Server's kafka-deployment, will be not public to connect with app in localtion call them, so we need make 1 service for connect to them like middleware.
+
+#### Example:
+
+```bash 
+
+from confluent_kafka import Producer
+import socket
+import time
+
+# Config for connect Producer Service
+conf = {"bootstrap.servers": "kafka-service:9092", "client.id": socket.gethostname()}
+producer = Producer(conf)
+
+
+for i in range(15):
+    
+    time.sleep(2)
+    producer.produce("minikube-topic", key="message", value="Linh 2")
+
+```
