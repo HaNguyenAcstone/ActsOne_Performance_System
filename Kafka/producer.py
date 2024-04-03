@@ -1,47 +1,15 @@
-import sys
-from random import choice
-from argparse import ArgumentParser, FileType
-from configparser import ConfigParser
-from confluent_kafka import Producer
+from kafka import KafkaProducer
 
-if __name__ == '__main__':
-    # Parse the command line.
-    parser = ArgumentParser()
-    parser.add_argument('config_file', type=FileType('r'))
-    args = parser.parse_args()
+# Khai báo địa chỉ của Kafka broker
+bootstrap_servers = '192.168.200.130:32046'  # Thay thế địa chỉ IP và cổng NodePort của Kafka broker của bạn
 
-    # Parse the configuration.
-    # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    config_parser = ConfigParser()
-    config_parser.read_file(args.config_file)
-    config = dict(config_parser['default'])
+# Tạo producer
+producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
-    # Create Producer instance
-    producer = Producer(config)
+# Gửi một tin nhắn tới topic 'test'
+topic = 'test'
+message = b'hello world!'
+producer.send(topic, message)
 
-    # Optional per-message delivery callback (triggered by poll() or flush())
-    # when a message has been successfully delivered or permanently
-    # failed delivery (after retries).
-    def delivery_callback(err, msg):
-        if err:
-            print('ERROR: Message failed delivery: {}'.format(err))
-        else:
-            print("Produced event to topic {topic}: key = {key:12} value = {value:12}".format(
-                topic=msg.topic(), key=msg.key().decode('utf-8'), value=msg.value().decode('utf-8')))
-
-    # Produce data by selecting random values from these lists.
-    topic = "purchases"
-    user_ids = ['eabara', 'jsmith', 'sgarcia', 'jbernard', 'htanaka', 'awalther']
-    products = ['book', 'alarm clock', 't-shirts', 'gift card', 'batteries']
-
-    count = 0
-    for _ in range(10):
-
-        user_id = choice(user_ids)
-        product = choice(products)
-        producer.produce(topic, product, user_id, callback=delivery_callback)
-        count += 1
-
-    # Block until the messages are sent.
-    producer.poll(10000)
-    producer.flush()
+# Đóng producer sau khi gửi tin nhắn
+producer.close()
