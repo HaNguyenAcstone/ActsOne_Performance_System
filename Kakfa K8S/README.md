@@ -107,3 +107,22 @@ spec:
       targetPort: 9092
 
 ```
+
+### Puplic Code 
+
+```bash 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service-public
+spec:
+  selector:
+    app: kafka
+  ports:
+    - protocol: TCP
+      port: 9092
+      targetPort: 9092
+  type: NodePort
+
+```
