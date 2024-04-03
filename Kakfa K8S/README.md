@@ -1,3 +1,6 @@
+https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
+
+
 ```bash
 apiVersion: apps/v1
 kind: Deployment
