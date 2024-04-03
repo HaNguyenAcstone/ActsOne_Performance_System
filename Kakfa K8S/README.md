@@ -1,5 +1,4 @@
-
-
+```bash
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,9 +25,11 @@ spec:
           value: "2181"
         - name: ZOOKEEPER_TICK_TIME
           value: "2000"
-
+```
 
 ----
+
+``` bash
 
 apiVersion: v1
 kind: Service
@@ -41,8 +42,10 @@ spec:
     - protocol: TCP
       port: 2181
       targetPort: 2181
- 
- ----
+
+``` 
+
+----
 
 ```bash
 docker pull confluentinc/cp-kafka:7.0.1
@@ -88,7 +91,7 @@ spec:
 
 ```
 
----
+----
 
 ```bash
 apiVersion: v1
