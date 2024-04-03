@@ -39,5 +39,3 @@ def request_lv_3(qty):
 
 # Run test request
 request_lv_3(1)
-
-
