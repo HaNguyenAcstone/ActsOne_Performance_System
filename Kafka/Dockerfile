@@ -19,8 +19,7 @@
 # # Khởi chạy ứng dụng khi container được khởi động
 # CMD ["python", "app.py"]
 
-
-# Sử dụng một base image có sẵn, ví dụ: Python 3.8
+# Sử dụng một base image có sẵn, ví dụ: Python 3.9 slim
 FROM python:3.9-slim
 
 # Copy các tệp cần thiết vào container
