@@ -1,4 +1,6 @@
-# So in here  we just need setup 1 master 
+## So in here  we just need setup 1 master 
+
+---
 
 #### Setup time for server
 ```bash
@@ -15,7 +17,7 @@ sudo ufw disable
 ```
 -----
 
-# Begin Setup
+## Begin Setup
 
 ```bash
 vi /etc/hosts
