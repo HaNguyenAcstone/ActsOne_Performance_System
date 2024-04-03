@@ -5,17 +5,7 @@ from configparser import ConfigParser
 
 app = Flask(__name__)
 
-# Function to read configuration from getting_started.ini
-def read_config():
-    config = ConfigParser()
-    config.read('getting_started.ini')
-    return config
-
-# Get Kafka producer with bootstrap.servers and group.id from config
-def get_kafka_producer(config):
-    bootstrap_servers = config.get('default', 'bootstrap.servers')
-    group_id = config.get('consumer', 'group.id')
-    
+def get_kafka_producer(bootstrap_servers, group_id):
     producer_config = {
         'bootstrap.servers': bootstrap_servers,
         'group.id': group_id
@@ -23,11 +13,8 @@ def get_kafka_producer(config):
     producer = Producer(producer_config)
     return producer
 
-# Read configuration file
-config = read_config()
-
-# Get Kafka producer
-producer = get_kafka_producer(config)
+# Truyền vào thông số bootstrap_servers và group_id
+producer = get_kafka_producer("0.0.0.0:9092", "python_example_group_1")
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
@@ -52,3 +39,4 @@ def send_message():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+
