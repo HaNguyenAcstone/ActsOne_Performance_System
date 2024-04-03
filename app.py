@@ -25,3 +25,6 @@ producer.produce(topic, key="message", value="message_from_python_producer", cal
 
 # Đảm bảo rằng tất cả các tin nhắn đã được gửi
 producer.flush()
+
+
+
