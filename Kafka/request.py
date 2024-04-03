@@ -14,7 +14,7 @@ data = {
 
 # Gửi yêu cầu POST đến URL
 #url = 'http://192.168.2.39:30001/send_message'
-url = 'http://192.168.2.47:5000/send_message'
+url = 'http://192.168.200.129:5000/send_message'
 response = requests.post(url, json=data)
 
 # Kiểm tra kết quả
