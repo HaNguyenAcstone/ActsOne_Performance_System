@@ -14,7 +14,7 @@ def get_kafka_producer(bootstrap_servers, group_id):
     return producer
 
 # Truyền vào thông số bootstrap_servers và group_id
-producer = get_kafka_producer("0.0.0.0:9092", "python_example_group_1")
+producer = get_kafka_producer("192.168.200.130:9092", "python_example_group_1")
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
