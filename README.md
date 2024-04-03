@@ -125,14 +125,6 @@ scrape_configs:
 
 ----
 
-#### 6. Setup App for run Test Redis Stream 
-
-```bash 
-
-```
-
-----
-
 ### Command usual use 
 
 ```bash 
