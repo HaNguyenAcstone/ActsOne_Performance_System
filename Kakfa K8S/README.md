@@ -129,3 +129,19 @@ spec:
   type: NodePort
 
 ```
+
+
+----
+
+
+kubectl create deployment python-repl --image=python:3.9 -- /bin/bash -i -t
+
+
+---
+
+	>>> from confluent_kafka import Producer
+  >>> import socket
+  >>> conf = {"bootstrap.servers": "kafka-service:9092", "client.id": socket.gethostname()}
+  >>> producer = Producer(conf)
+  >>> producer.produce("minikube-topic", key="message", value="message_from_python_producer")
+ 
