@@ -13,8 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy mã nguồn ứng dụng vào thư mục /app trong container
 COPY . .
 
-# Cấp quyền thực thi cho file app.py
-RUN chmod u+x app.py
-
 # Khởi chạy ứng dụng khi container được khởi động
-CMD ["python", "app.py" , "getting_started.ini"]
+CMD ["python", "app.py"]
