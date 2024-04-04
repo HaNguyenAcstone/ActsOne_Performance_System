@@ -239,6 +239,25 @@ spec:
 
 ```
 
+#### After setup you can check for sure
+```bash
+root@local:~# k get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+kafka-deployment       1/1     1            1           19h
+zookeeper-deployment   1/1     1            1           19h
+root@local:~# k get pod
+NAME                                    READY   STATUS    RESTARTS       AGE
+kafka-deployment-7fc8fcc44f-6l8pk       1/1     Running   2 (144m ago)   19h
+python-repl                             1/1     Running   1 (145m ago)   18h
+zookeeper-deployment-687b96fd94-g8ppx   1/1     Running   1 (145m ago)   19h
+root@local:~# k get svc
+NAME                TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kafka-service       NodePort    10.43.28.251   <none>        9092:32142/TCP   19h
+kubernetes          ClusterIP   10.43.0.1      <none>        443/TCP          19h
+zookeeper-service   ClusterIP   10.43.3.164    <none>        2181/TCP         19h
+root@local:~#
+```
+
 #### Note: 
 
 IP Server's kafka-deployment, will be not public to connect with app in localtion call them, so we need make 1 service for connect to them like middleware.
