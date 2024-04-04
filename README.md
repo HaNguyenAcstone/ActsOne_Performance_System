@@ -27,6 +27,8 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Node Exporter](#setup-node-exporter) 
 
+* [Setup Prometheus](#setup-prometheus)
+
 #### 3. API For Test Server's Performance
 
 * API - DdOS
@@ -429,4 +431,57 @@ Node Exporter is an open-source software developed by Prometheus used for collec
 
 ```bash
 docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
+```
+
+---
+
+### Setup Prometheus
+
+ ( Plugin for get all Metrics from Project want see the performace )
+
+```bash
+docker run -d -p 9090:9090 --name prometheus prom/prometheus
+```
+
+<strong>Can check IP </strong>have connnect prometheus ( targets service )
+http://192.168.200.128:9090/targets?search=
+
+<strong>Add more Server IP</strong>: Edit this file <strong>prometheus.yaml</strong>
+```bash
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "ActsOne Message"
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ["192.168.10.133:9100:5000"]
+
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "ActsOne Performance"
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      # In here you can put more ip for check performance, in here I trust make example
+      - targets: ["192.168.10.133:9100:9090"] 
 ```
