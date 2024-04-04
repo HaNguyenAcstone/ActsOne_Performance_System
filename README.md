@@ -25,7 +25,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Loki](#setup-loki)
 
-* Setup Node Exporter 
+* [Setup Node Exporter](#setup-node-exporter) 
 
 #### 3. API For Test Server's Performance
 
@@ -419,4 +419,14 @@ The default helm configuration deploys promtail as a <strong>daemonSet</strong> 
 
 ```bash 
 helm upgrade --values values.yaml --install promtail grafana/promtail
+```
+
+---
+
+### Setup Node Exporter
+
+Node Exporter is an open-source software developed by Prometheus used for collecting system metrics from servers. It gathers information about system resources such as CPU, memory, disk, and network, as well as details about running processes. Node Exporter exposes this data via HTTP endpoints, typically on port 9100, in plaintext format. This collected information is valuable for monitoring and analyzing system performance, especially in cloud or distributed environments. Node Exporter plays a crucial role in system monitoring and performance analysis, forming an integral part of the Prometheus ecosystem.
+
+```bash
+docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 ```
