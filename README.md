@@ -437,7 +437,7 @@ docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 
 ### Setup Prometheus
 
- ( Plugin for get all Metrics from Project want see the performace )
+Plugin for get all Metrics from service want monitor
 
 ```bash
 docker run -d -p 9090:9090 --name prometheus prom/prometheus
