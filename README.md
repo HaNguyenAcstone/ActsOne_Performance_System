@@ -65,7 +65,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 -----
 
-### Setup Docker and K8S {#setup-docker-and-k8s}
+### Setup Docker and K8S
 
 #### . Setup Docker
 
