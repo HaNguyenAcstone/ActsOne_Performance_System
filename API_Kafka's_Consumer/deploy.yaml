@@ -20,7 +20,6 @@ spec:
         image: linhtran2023/api-consumer-kafka-control-source:v01
 
 ---
-
 # Deployment Have Control the Source
 apiVersion: apps/v1
 kind: Deployment
@@ -63,4 +62,4 @@ spec:
       targetPort: 5000  # Cổng của target pod
       nodePort: 30003
   selector:
-    app: api-consumer-kafka-control-source 
+    app: api-consumer-kafka-control-source
