@@ -1,3 +1,4 @@
+import logging
 from confluent_kafka import Consumer, KafkaError
 import socket
 import threading
@@ -13,6 +14,9 @@ conf_consumer = {
 }
 consumer = Consumer(conf_consumer)
 consumer.subscribe([topic_to_subscribe])
+
+# Configure logging
+logging.basicConfig(filename='kafka_consumer.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Global variable to control consumer status
 running = True
@@ -31,9 +35,9 @@ def start_consumer():
                     continue
                 else:
                     # Other error, log it
-                    print("Consumer error: {}".format(msg.error()))
+                    logging.error("Consumer error: %s", msg.error())
                     break
-            print("Received message:", msg.value().decode('utf-8'))  # Decode message and print it
+            logging.info("Received message: %s", msg.value().decode('utf-8'))  # Decode message and log it
     except KeyboardInterrupt:
         consumer.close()
 
