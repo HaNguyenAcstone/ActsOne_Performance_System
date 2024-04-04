@@ -38,7 +38,9 @@ def start_consumer():
                     # Other error, log it
                     logging.error("Consumer error: %s", msg.error())
                     break
-            logging.info(msg.value().decode('utf-8'))  # Decode message and log it
+            message = msg.value().decode('utf-8')  # Decode message
+            print("Received message:", message)  # Print message
+            logging.info(message)  # Log message
     except KeyboardInterrupt:
         consumer.close()
 
