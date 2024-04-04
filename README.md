@@ -1,4 +1,33 @@
-## List All Step For Setup Base For Test Stream DATA
+## Steam Data Solution
+
+<img src="Picture/1.png" ><br>
+
+
+### What is Steam Data  ?
+
+Stream Data is a technique that allows processing data in real-time or near-real-time, where data is processed as a continuous stream rather than as fixed or static chunks. It enables handling of unbounded data, ensuring ordered data processing. Technologies like Redis Streams and Kafka Streams provide mechanisms to manage and process data in this streaming fashion, commonly used in data analytics, state monitoring, log processing, and various other real-time data processing scenarios.
+
+----
+
+### Table of contents
+
+#### 1.Setup environment
+
+* Setup Docker
+
+* Setup K8S ( for deploy application and control )
+
+* Setup Redis
+
+* Setup Kafka
+
+#### 2.Setup Monitor System
+
+* Setup Grafana ( Use for monitor )
+
+* Setup Loki ( For get all logs from POD )
+
+#### 3. API For Test Server's Performance
 
 ----
 
