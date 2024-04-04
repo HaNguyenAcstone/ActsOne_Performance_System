@@ -453,7 +453,10 @@ docker run -d -p 9090:9090 --name prometheus prom/prometheus
 http://192.168.200.128:9090/targets?search=
  ```
 
-<strong>Add more Server IP</strong>: Edit this file <strong>prometheus.yaml</strong>
+<strong>Add more Server IP</strong> ( Edit this file ) 
+
+<strong>prometheus.yaml</strong>
+
 ```bash
 # my global config
 global:
