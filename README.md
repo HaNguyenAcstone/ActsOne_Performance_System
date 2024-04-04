@@ -13,6 +13,30 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 #### 1.Setup environment
 
+# Mục Lục
+
+1. [Giới Thiệu](#giới-thiệu)
+2. [Cài Đặt](#cài-đặt)
+3. [Sử Dụng](#sử-dụng)
+4. [Hướng Dẫn](#hướng-dẫn)
+
+## Giới Thiệu
+
+Đây là phần giới thiệu.
+
+## Cài Đặt
+
+Đây là phần hướng dẫn cài đặt.
+
+## Sử Dụng
+
+Đây là phần hướng dẫn sử dụng.
+
+## Hướng Dẫn
+
+Đây là phần hướng dẫn chi tiết.
+
+
 * [Setup Docker and K8S](#setup-docker-and-k8s)
 
 * Setup Redis
