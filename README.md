@@ -437,7 +437,7 @@ docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 
 ### Setup Prometheus
 
-Plugin for get all Metrics from service want monitor
+Prometheus is an open-source monitoring and alerting system designed to collect, store, and query metrics from distributed systems and services. It follows a pull-based model to gather metrics and provides a flexible data model for custom metric definition. Prometheus includes a web interface for data visualization and querying, along with alerting capabilities to notify users of system issues or anomalies. Overall, it helps users understand and manage system performance effectively.
 
 ```bash
 docker run -d -p 9090:9090 --name prometheus prom/prometheus
