@@ -31,11 +31,14 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 #### 3. API For Test Server's Performance
 
-* [API - DdOS](/API - DdOS For Test)
+* [API - DdOS](API_DdOS/README.md)
 
-* API - Kafka's
+* [API - Kafka's](API_Request_Redis_Streams/README.md)
 
-* API - Request Redis Streams
+* [API - Request Redis Streams](API_Kafka's/README.md)
+
+--
+#### [Help Command](#help-command)
 
 ----
 
@@ -487,4 +490,36 @@ scrape_configs:
     static_configs:
       # In here you can put more ip for check performance, in here I trust make example
       - targets: ["192.168.10.133:9100:9090"] 
+```
+
+---
+
+### Help Command
+
+```bash
+docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v19
+
+# Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
+docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+
+# Command help copy file from local to Container ( VD: 601280c779bc = CONTAINER ID )
+docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
+
+# Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
+docker restart 601280c779bc
+
+# Command for join docker container 
+docker exec -it 601280c779bc sh
+
+# Command for get name of network layer --------------------------------------
+docker inspect -f '{{.NetworkSettings.Networks}}' my_container_id
+
+# EX for run 1 container with Network you want (--network=prometheus_default)
+docker run -d --name=container-advisor -p 9300:9300 --network=prometheus_default prom/container-exporter
+
+# Command for get ip inside Docker Container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11d293d6782
+
+# Command for chance the network for container u want ( 7432faf616e8 is Container ID)
+docker network connect prometheus_default 7432faf616e8
 ```
