@@ -125,7 +125,7 @@ docker run -d --name my-redis-container -p 6379:6379 redis
 
 Research's Link: https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
 
-#### zookeeper-deployment
+### .. zookeeper-deployment
 
 <strong>Node</strong>: Need setting about Storage when deploy in Production.
 
@@ -175,7 +175,7 @@ spec:
 
 ``` 
 
-#### kafka-deployment
+### .. kafka-deployment
 
 <strong>Note</strong>: Need pull images before deploy by K8S, Images is Large Size.
 
