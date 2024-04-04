@@ -17,11 +17,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Redis](#setup-redis)
 
-* [Setup Kafka](#setup-Kafka)
+* [Setup Kafka](#setup-kafka)
 
 #### 2.Setup Monitor System
 
-* Setup Grafana
+* [Setup Grafana](#setup-grafana)
 
 * Setup Loki
 
@@ -114,12 +114,35 @@ systemctl start rke2-server
 . Setup by Docker
 
 ```bash
-docker run -d --name my-redis-container -p 6379:6379 redis
+# Make file docker-compose.yaml
+version: '3'
+
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+
+# And then run this one, redis sẽ chạy trên pod 6379
+docker-compose up -d
+
+# Check after setup 
+root@serverlocal:~# docker ps
+CONTAINER ID   IMAGE                               COMMAND                  CREATED              STATUS              PORTS                                       NAMES
+1fcd6b7e85b3   redis                               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:6379->6379/tcp
+
+# Or Also can use this for fast Setup
+docker run --name redis -d -p 6379:6379 redis
 ```
 
 ---
 
-## Setup Kafka
+### Setup Kafka
 
 ### . Setup by K8S
 
@@ -283,3 +306,31 @@ for i in range(15):
 ```
 
 ---
+## 2. Setup Monitor System
+### Setup Grafana
+
+. Setup by docker
+
+```bash 
+# Make the docker-compose.yml file with this content 
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/lib/grafana:/var/lib/grafana
+    restart: always
+
+# And then run this one 
+docker-compose up -d
+
+# Grafana will run in pod: 3000
+root@serverlocal:~# docker ps
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS             PORTS                                       NAMES
+4fcec7d72e72   grafana/grafana:latest              "/run.sh"                4 hours ago      Up About an hour   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   grafana
+
+# Note: Infor default login ( admin / admin )
+```
