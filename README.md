@@ -33,9 +33,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [API - DdOS](API_DdOS/README.md)
 
-* [API - Kafka's](API_Request_Redis_Streams/README.md)
+* [API - Kafka's Producer](API_Kafka's_Producer/README.md)
 
-* [API - Request Redis Streams](API_Kafka's/README.md)
+* [API - Kafka's Consumer](API_Kafka's_Consumer/README.md)
+
+* [API - Request Redis Streams](API_Request_Redis_Streams/README.md)
 
 #### 4. Kafka Note
 
