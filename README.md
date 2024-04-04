@@ -15,8 +15,6 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Docker and K8S](#setup-docker-and-k8s)
 
-* [Setup Redis](#setup-redis)
-
 * [Setup Kafka](#setup-kafka)
 
 #### 2. Setup Monitor System
@@ -512,6 +510,9 @@ scrape_configs:
 # End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
 k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
 
+# 
+k exec -it api-consumer-kafka-control-source-5547d9c797-s4pww -- /bin/bash
+
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)
@@ -548,6 +549,8 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --list
 ### Command For Help
 
 ```bash
+
+# Run
 docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v19
 
 # Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
