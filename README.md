@@ -510,13 +510,36 @@ scrape_configs:
 # End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
 k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
 
-# Create the topic 
+---
+
+# Create the topic inside kafka ( my-topic  = Name topic u want)
+kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic my-topic
 
 # Show the topic have 
+kafka-topics --list --bootstrap-server localhost:9092
 
-# Show the partion have in 1 Topic 
+# See detail in kafka's topic have now
+kafka-topics --describe --bootstrap-server localhost:9092 --topic my-topic
 
-# Show How many Broker have now 
+Topic: my-topic    TopicId: MbqptL4WS4232FN9m-iivQ PartitionCount: 1       ReplicationFactor: 1    Configs:
+Topic: my-topic    Partition: 0    Leader: 1       Replicas: 1     Isr: 1
+
+# Remove the topics:
+kafka-topics --delete --bootstrap-server localhost:9092 --topic my-topic
+
+---
+
+# Create producer for send the message:
+kafka-console-producer --bootstrap-server localhost:9092 --topic my-topic
+
+---
+
+# Create consumer for get message:
+kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+
+# Check Consumer Groups have now:
+kafka-consumer-groups --bootstrap-server localhost:9092 --list
+
 ```
 -----
 
