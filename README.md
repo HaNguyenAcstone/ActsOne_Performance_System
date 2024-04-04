@@ -11,7 +11,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 ### Table of contents
 
-#### 1.Setup environment
+#### 1. Setup environment
 
 * [Setup Docker and K8S](#setup-docker-and-k8s)
 
@@ -19,11 +19,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Kafka](#setup-kafka)
 
-#### 2.Setup Monitor System
+#### 2. Setup Monitor System
 
 * [Setup Grafana](#setup-grafana)
 
-* Setup Loki
+* [Setup Loki](#setup-loki)
 
 * Setup Node Exporter 
 
@@ -37,7 +37,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 ----
 
-## 1.Setup environment
+## 1. Setup environment
 
 -----
 
@@ -333,4 +333,90 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 4fcec7d72e72   grafana/grafana:latest              "/run.sh"                4 hours ago      Up About an hour   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   grafana
 
 # Note: Infor default login ( admin / admin )
+```
+
+---
+
+### Setup Loki
+
+<strong>Note</strong>: Loki will save all logs from Promtail, so this one with use many storage, so we need control and clear log in some time.
+
+```bash
+# So my loki-config.yaml stay in thí url /root/loki )
+docker run --name loki -d -v /root/loki:/mnt/config -p 3100:3100 grafana/loki:2.9.1
+
+```
+
+<strong>loki-config.yaml</strong>
+
+```bash
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+
+ingester:
+  lifecycler:
+    address: 127.0.0.1
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
+
+schema_config:
+  configs:
+    - from: 2020-01-01
+      store: boltdb
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+storage_config:
+  boltdb:
+    directory: /tmp/loki/index
+
+  filesystem:
+    directory: /tmp/loki/chunks
+
+limits_config:
+  enforce_metric_name: false
+  reject_old_samples: true
+  reject_old_samples_max_age: 168h
+
+chunk_store_config:
+  max_look_back_period: 0s
+
+table_manager:
+  retention_deletes_enabled: false
+  retention_period: 0
+```
+---
+<strong>Setup Promtail</strong> for get all logs in every node with ( Daemonset )
+
+<strong>Link Docs Detail</strong>: https://grafana.com/docs/loki/latest/send-data/promtail/installation/
+
+```bash
+snap install helm --classic
+
+helm repo add grafana https://grafana.github.io/helm-charts
+
+helm repo update
+```
+
+Create the configuration file <strong>values.yaml</strong> with this conntent
+
+```bash
+config:
+  # publish data to loki
+  clients:
+    - url: http://loki-gateway/loki/api/v1/push
+      tenant_id: 1
+```
+
+The default helm configuration deploys promtail as a <strong>daemonSet</strong> (recommended)
+
+```bash 
+helm upgrade --values values.yaml --install promtail grafana/promtail
 ```
