@@ -37,6 +37,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [API - Request Redis Streams](API_Kafka's/README.md)
 
+#### 4. Kafka Note
+
+* [Command For Control](#command-for-control)
+
+
 ----
 
 ### [Command For Help](#command-for-help)
@@ -495,8 +500,25 @@ scrape_configs:
       # In here you can put more ip for check performance, in here I trust make example
       - targets: ["192.168.10.133:9100:9090"] 
 ```
+-----
 
----
+## Kafka Note
+### Command For Control
+
+```bash 
+
+# End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
+k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
+
+# Create the topic 
+
+# Show the topic have 
+
+# Show the partion have in 1 Topic 
+
+# Show How many Broker have now 
+```
+-----
 
 ### Command For Help
 
