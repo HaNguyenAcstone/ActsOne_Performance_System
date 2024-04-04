@@ -1,7 +1,5 @@
 ## Steam Data Solution <img src="Picture/logo.png" align="right" width=80 height=80>
 
-----
-
 ### What is Steam Data  ?
 
 Stream Data is a technique that allows processing data in real-time or near-real-time, where data is processed as a continuous stream rather than as fixed or static chunks. It enables handling of unbounded data, ensuring ordered data processing. Technologies like Redis Streams and Kafka Streams provide mechanisms to manage and process data in this streaming fashion, commonly used in data analytics, state monitoring, log processing, and various other real-time data processing scenarios.
