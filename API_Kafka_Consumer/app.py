@@ -28,7 +28,7 @@ def start_consumer():
         while running:
             msg = consumer.poll(1.0)  # Poll messages with timeout of 1 second
             if msg is None:
-                # print("Waiting for messages ...")  # Display "Waiting ..." message when no new message
+                print("Waiting for messages ...")  # Display "Waiting ..." message when no new message
                 continue
             if msg.error():
                 if msg.error().code() == KafkaError._PARTITION_EOF:
@@ -46,5 +46,3 @@ def start_consumer():
 
 # Start the consumer
 threading.Thread(target=start_consumer).start()
-
-
