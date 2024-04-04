@@ -62,7 +62,6 @@ sudo -i # Change to root
 apt update
 apt install docker
 apt install docker-compose
-
 ```
 
 #### . Setup K8S - Version RKE2
@@ -506,13 +505,11 @@ scrape_configs:
 ### Command For Control
 
 ```bash 
-
 # End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
 k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
 
-# 
+# Another command for enter the pod consumer or producer
 k exec -it api-consumer-kafka-control-source-5547d9c797-s4pww -- /bin/bash
-
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)
@@ -529,12 +526,10 @@ Topic: my-topic    Partition: 0    Leader: 1       Replicas: 1     Isr: 1
 
 # Remove the topics:
 kafka-topics --delete --bootstrap-server localhost:9092 --topic my-topic
-
 ---
 
 # Create producer for send the message:
 kafka-console-producer --bootstrap-server localhost:9092 --topic my-topic
-
 ---
 
 # Create consumer for get message:
