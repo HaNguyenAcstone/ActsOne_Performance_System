@@ -1,6 +1,6 @@
 ## Steam Data Solution
 
-<img src="Picture/1.png" ><br>
+<img src="Picture/2.png" ><br>
 
 
 ### What is Steam Data  ?
