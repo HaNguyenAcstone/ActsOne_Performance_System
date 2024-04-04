@@ -42,9 +42,9 @@ Stream Data is a technique that allows processing data in real-time or near-real
 * [Command For Control](#command-for-control)
 
 
-----
+#### 5. Tips
 
-### [Command For Help](#command-for-help)
+* [Command For Help](#command-for-help)
 
 ----
 
