@@ -13,35 +13,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 #### 1.Setup environment
 
-# Mục Lục
-
-1. [Giới Thiệu](#giới-thiệu)
-2. [Cài Đặt](#cài-đặt)
-3. [Sử Dụng](#sử-dụng)
-4. [Hướng Dẫn](#hướng-dẫn)
-
-## Giới Thiệu
-
-Đây là phần giới thiệu.
-
-## Cài Đặt
-
-Đây là phần hướng dẫn cài đặt.
-
-## Sử Dụng
-
-Đây là phần hướng dẫn sử dụng.
-
-## Hướng Dẫn
-
-Đây là phần hướng dẫn chi tiết.
-
-
 * [Setup Docker and K8S](#setup-docker-and-k8s)
 
-* Setup Redis
+* [Setup Redis](#setup-redis)
 
-* Setup Kafka
+* [Setup Kafka](#setup-Kafka)
 
 #### 2.Setup Monitor System
 
@@ -133,193 +109,158 @@ systemctl start rke2-server
 
 ---
 
+### Setup Redis
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 1. Setup Node Exporter ( Plugin for get Metric in Node )
-```bash
-docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
-```
-
-----
-
-### 2. Setup Container Exporte ( Plugin for get Metric in Docker's Container )
-```bash
-docker run -d -p 9104:9104 -v /var/run/docker.sock:/var/run/docker.sock --name=docker-exporter prom/container-exporter:latest
-```
-
-----
-
-### 3. Setup Grafana ( Website for show Chart View )
-
-```bash 
-# Make the docker-compose.yml file with this content 
-version: '3'
-services:
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - /var/lib/grafana:/var/lib/grafana
-    restart: always
-
-# And then run this one 
-docker-compose up -d
-
-# Grafana will run in pod: 3000
-root@serverlocal:~# docker ps
-CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS             PORTS                                       NAMES
-4fcec7d72e72   grafana/grafana:latest              "/run.sh"                4 hours ago      Up About an hour   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   grafana
-
-# Note is: Infor login default is: admin / admin 
-```
-
-----
-
-### 4. Setup Redis ( Database No SQL )
+. Setup by Docker
 
 ```bash
-version: '3'
-
-services:
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-volumes:
-  redis_data:
-
-# And then run this one, redis sẽ chạy trên pod 6379
-docker-compose up -d
-
-# Check again 
-root@serverlocal:~# docker ps
-CONTAINER ID   IMAGE                               COMMAND                  CREATED              STATUS              PORTS                                       NAMES
-1fcd6b7e85b3   redis                               "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:6379->6379/tcp
-
-# Or Also can use this for fast Setup
-docker run --name redis -d -p 6379:6379 redis
-
+docker run -d --name my-redis-container -p 6379:6379 redis
 ```
-----
 
-### 5. Setup Protheums ( Plugin for get all Metrics from Project want see the performace )
+---
+
+## Setup Kafka
+
+### . Setup by K8S
+
+Research's Link: https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
+
+#### zookeeper-deployment
+
+<strong>Node</strong>: Need setting about Storage when deploy in Production.
 
 ```bash
-docker run -d -p 9090:9090 --name prometheus prom/prometheus
-```
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper-deployment
+  labels:
+    app: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: confluentinc/cp-zookeeper:7.0.1
+        ports:
+        - containerPort: 2181
+        env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"
 
-#### Check IP have connnect with ( targets service )
-http://192.168.200.128:9090/targets?search=
+---
 
-#### Add more Target: Edit this file prometheus.yaml
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-service
+spec:
+  selector:
+    app: zookeeper
+  ports:
+    - protocol: TCP
+      port: 2181
+      targetPort: 2181
+
+``` 
+
+#### kafka-deployment
+
+<strong>Note</strong>: Need pull images before deploy by K8S, Images is Large Size.
+
 ```bash
-# my global config
-global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
-
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          # - alertmanager:9093
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-  # - "first_rules.yml"
-  # - "second_rules.yml"
-
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
-scrape_configs:
-
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "ActsOne Message"
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    static_configs:
-      - targets: ["192.168.10.133:9100:5000"]
-
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "ActsOne Performance"
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    static_configs:
-      # In here you can put more ip for check performance, in here I trust make example
-      - targets: ["192.168.10.133:9100:9090"] 
+docker pull confluentinc/cp-kafka:7.0.1
 ```
 
-----
+```bash
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  labels:
+    app: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: broker
+        image: confluentinc/cp-kafka:7.0.1
+        ports:
+        - containerPort: 9092
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "1"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: 'zookeeper-service:2181'
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-service:9092
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: "1"
 
-### Command usual use 
+---
+
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service
+spec:
+  selector:
+    app: kafka
+  ports:
+    - protocol: TCP
+      port: 9092
+      targetPort: 9092
+
+```
+
+#### Note: 
+
+IP Server's kafka-deployment, will be not public to connect with app in localtion call them, so we need make 1 service for connect to them like middleware.
+
+#### Example:
 
 ```bash 
 
-docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v19
+from confluent_kafka import Producer
+import socket
+import time
 
-# Command help copy file from Container to Local ( VD: 601280c779bc = CONTAINER ID )
-docker cp 601280c779bc:/etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+# Config for connect Producer Service
+conf = {"bootstrap.servers": "kafka-service:9092", "client.id": socket.gethostname()}
+producer = Producer(conf)
 
-# Command help copy file from local to Container ( VD: 601280c779bc = CONTAINER ID )
-docker cp prometheus.yml 601280c779bc:/etc/prometheus/prometheus.yml
 
-# Restart lại contaniner đó ( VD: 601280c779bc = CONTAINER ID )
-docker restart 601280c779bc
-
-# Command for join docker container 
-docker exec -it 601280c779bc sh
-
-# Command for get name of network layer --------------------------------------
-docker inspect -f '{{.NetworkSettings.Networks}}' my_container_id
-
-# EX for run 1 container with Network you want (--network=prometheus_default)
-docker run -d --name=container-advisor -p 9300:9300 --network=prometheus_default prom/container-exporter
-
-# Command for get ip inside Docker Container
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11d293d6782
-
-# Command for chance the network for container u want ( 7432faf616e8 is Container ID)
-docker network connect prometheus_default 7432faf616e8
+for i in range(15):
+    
+    time.sleep(2)
+    producer.produce("minikube-topic", key="message", value="Linh 2")
 
 ```
+
+---
