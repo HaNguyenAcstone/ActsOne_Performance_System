@@ -13,7 +13,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 #### 1.Setup environment
 
-* [Setup Docker and K8S](#01)
+* [Setup Docker and K8S](#setup-docker-and-k8s)
 
 * Setup Redis
 
@@ -41,7 +41,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 -----
 
-### Setup Docker and K8S {#01}
+### Setup Docker and K8S {#setup-docker-and-k8s}
 
 #### . Setup Docker
 
