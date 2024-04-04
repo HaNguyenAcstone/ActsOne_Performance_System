@@ -1,4 +1,4 @@
-## Steam Data Solution
+## Steam Data Solution <img src="Picture/logo.png" align="right" width=80 height=80>
 
 <img src="Picture/2.png" ><br>
 
