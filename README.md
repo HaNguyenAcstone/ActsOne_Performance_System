@@ -39,7 +39,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 ----
 
-### [Help Command](#help-command)
+### [Command For Help](#command-for-help)
 
 ----
 
@@ -498,7 +498,7 @@ scrape_configs:
 
 ---
 
-### Help Command
+### Command For Help
 
 ```bash
 docker run -d -p 5000:5000 --name my_container linhtran2023/actsone_performance_system:v19
