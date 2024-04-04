@@ -37,8 +37,9 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [API - Request Redis Streams](API_Kafka's/README.md)
 
---
-#### [Help Command](#help-command)
+----
+
+### [Help Command](#help-command)
 
 ----
 
