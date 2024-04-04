@@ -16,7 +16,7 @@ consumer = Consumer(conf_consumer)
 consumer.subscribe([topic_to_subscribe])
 
 # Configure logging
-logging.basicConfig(filename='kafka_consumer.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='kafka_consumer.log', level=logging.INFO, format='%(message)s')
 
 # Global variable to control consumer status
 running = True
@@ -28,6 +28,7 @@ def start_consumer():
         while running:
             msg = consumer.poll(1.0)  # Poll messages with timeout of 1 second
             if msg is None:
+                print("Waiting for messages ...")  # Display "Waiting ..." message when no new message
                 continue
             if msg.error():
                 if msg.error().code() == KafkaError._PARTITION_EOF:
@@ -37,7 +38,7 @@ def start_consumer():
                     # Other error, log it
                     logging.error("Consumer error: %s", msg.error())
                     break
-            logging.info("Received message: %s", msg.value().decode('utf-8'))  # Decode message and log it
+            logging.info(msg.value().decode('utf-8'))  # Decode message and log it
     except KeyboardInterrupt:
         consumer.close()
 

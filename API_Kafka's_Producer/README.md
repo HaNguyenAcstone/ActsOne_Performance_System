@@ -1,1 +1,0 @@
-### This API is producer service connect with Kafka service on K8S for Test
