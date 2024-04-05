@@ -13,7 +13,9 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 #### 1. Setup environment
 
-* [Setup Docker and K8S](#setup-docker-and-k8s)
+* [Setup Kubernetes - version RKE2](#setup-kubernetes---version-rke2)
+
+* [Setup Docker](#setup-docker)
 
 * [Setup Kafka](#setup-kafka)
 
@@ -52,9 +54,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 -----
 
-### Setup Docker and K8S
-
-#### . Setup Docker
+#### Setup Docker
 
 ```bash
 
@@ -64,7 +64,7 @@ apt install docker
 apt install docker-compose
 ```
 
-#### . Setup K8S - Version RKE2
+#### Setup Kubernetes - version RKE2
 
 ```bash
 # Setup time for server ----------------
