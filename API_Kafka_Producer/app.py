@@ -1,14 +1,8 @@
 from flask import Flask, request, jsonify
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from confluent_kafka import Producer
 import socket
 
 app = Flask(__name__)
-limiter = Limiter(app)
-
-# Cấu hình Limiter
-limiter.init_app(app)
 
 # Topic Use 
 topic_Use = 'my-topic'
@@ -18,7 +12,6 @@ producer = Producer(conf)
 
 # API POST
 @app.route('/send-message', methods=['POST'])
-@limiter.limit("500/second")  # Giới hạn 500 request mỗi giây
 def send_message():
     data = request.json
     # Sử dụng tên chủ đề cố định
@@ -51,3 +44,5 @@ def get_message():
 # Run ---------------------------
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
+
