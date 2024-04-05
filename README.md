@@ -571,4 +571,10 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11
 
 # Command for chance the network for container u want ( 7432faf616e8 is Container ID)
 docker network connect prometheus_default 7432faf616e8
+
+# K8S Command ------------------
+
+# Restart workload
+kubectl rollout restart deployment <deployment-name>
+
 ```
