@@ -68,12 +68,14 @@ def send_message_to_kafka(topic, message):
         print(f"Tin nhắn đã được gửi tới chủ đề '{topic}': {message}")
     except Exception as e:
         print(f"Lỗi khi gửi tin nhắn tới chủ đề '{topic}': {str(e)}")
+        # Thêm xử lý lỗi nếu cần
     finally:
-        # Đóng producer
-        producer.close()
+        # Bỏ phần đóng producer
+        pass
 
 
 # Sử dụng hàm để gửi tin nhắn tới chủ đề 'my-topic-2'
 topic_name = "my-topic-2"
 message_content = "Đây là một tin nhắn mẫu từ Python!"
 send_message_to_kafka(topic_name, message_content)
+
