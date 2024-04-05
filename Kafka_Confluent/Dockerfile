@@ -16,4 +16,4 @@ COPY . .
 RUN pip install confluent_kafka
 
 # Chạy script khi container được khởi động
-CMD [ "python", "./app.py" ]
+CMD [ "python", "app.py", "getting_started.ini" ]
