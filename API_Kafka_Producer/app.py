@@ -5,7 +5,7 @@ from confluent_kafka import Producer
 import socket
 
 app = Flask(__name__)
-limiter = Limiter(app, key_func=get_remote_address)
+limiter = Limiter(app)
 
 # Cấu hình Limiter
 limiter.init_app(app)
@@ -18,7 +18,7 @@ producer = Producer(conf)
 
 # API POST
 @app.route('/send-message', methods=['POST'])
-@limiter.limit("100/second")  # Giới hạn 500 request mỗi giây
+@limiter.limit("500/second")  # Giới hạn 500 request mỗi giây
 def send_message():
     data = request.json
     # Sử dụng tên chủ đề cố định
@@ -35,7 +35,6 @@ def send_message():
 # API GET
 # Test: http://192.168.2.39:30002/get-message?key=test_key&value=test_value
 @app.route('/get-message', methods=['GET'])
-@limiter.limit("100/second")  # Giới hạn 500 request mỗi giây
 def get_message():
 
     # Sử dụng tên chủ đề cố định
