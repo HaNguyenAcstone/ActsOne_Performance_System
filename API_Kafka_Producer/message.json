@@ -1,0 +1,62 @@
+[
+    {
+        "order_id": "1001",
+        "product_name": "Laptop",
+        "quantity": 2,
+        "price": 1200
+    },
+    {
+        "order_id": "1002",
+        "product_name": "Smartphone",
+        "quantity": 1,
+        "price": 800
+    },
+    {
+        "order_id": "1003",
+        "product_name": "Headphones",
+        "quantity": 3,
+        "price": 50
+    },
+    {
+        "order_id": "1004",
+        "product_name": "Smart Watch",
+        "quantity": 1,
+        "price": 150
+    },
+    {
+        "order_id": "1005",
+        "product_name": "Camera",
+        "quantity": 1,
+        "price": 600
+    },
+    {
+        "order_id": "1006",
+        "product_name": "Printer",
+        "quantity": 2,
+        "price": 300
+    },
+    {
+        "order_id": "1007",
+        "product_name": "Tablet",
+        "quantity": 1,
+        "price": 400
+    },
+    {
+        "order_id": "1008",
+        "product_name": "Gaming Console",
+        "quantity": 1,
+        "price": 500
+    },
+    {
+        "order_id": "1009",
+        "product_name": "External Hard Drive",
+        "quantity": 2,
+        "price": 100
+    },
+    {
+        "order_id": "1010",
+        "product_name": "Wireless Earbuds",
+        "quantity": 1,
+        "price": 80
+    }
+]
