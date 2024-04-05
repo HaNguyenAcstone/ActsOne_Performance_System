@@ -521,6 +521,10 @@ kafka-topics --list --bootstrap-server localhost:9092
 # See detail in kafka's topic have now
 kafka-topics --describe --bootstrap-server localhost:9092 --topic my-topic
 
+# Add more topic
+kafka-topics --bootstrap-server localhost:9092 --alter --partitions 10 --topic my-topic
+
+
 Topic: my-topic    TopicId: MbqptL4WS4232FN9m-iivQ PartitionCount: 1       ReplicationFactor: 1    Configs:
 Topic: my-topic    Partition: 0    Leader: 1       Replicas: 1     Isr: 1
 

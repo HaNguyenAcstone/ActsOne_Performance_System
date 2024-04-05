@@ -11,75 +11,48 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
-	const numMessages = 10000
+	const numRuns = 1
 
-	for i := 0; i < numMessages; i++ {
-		wg.Add(1)
-		go func(i int) {
-			defer wg.Done()
+	for run := 0; run < numRuns; run++ {
+		var wg sync.WaitGroup
+		const numMessages = 10000
 
-			// Generate the POST data with a random ordersn and current timestamp
-			postData := generatePostData()
+		for i := 0; i < numMessages; i++ {
+			wg.Add(1)
+			go func(i int) {
+				defer wg.Done()
 
-			// Convert the struct to JSON
-			jsonData, err := json.Marshal(postData)
-			if err != nil {
-				fmt.Println("Error encoding JSON:", err)
-				return
-			}
+				// Generate the POST data with a random ordersn and current timestamp
+				postData := generatePostData()
 
-			// Send the POST request
-			err = postRequest("http://192.168.2.39:30002/send-message", jsonData)
-			if err != nil {
-				fmt.Println("Error sending request:", err)
-				return
-			}
+				// Convert the struct to JSON
+				jsonData, err := json.Marshal(postData)
+				if err != nil {
+					fmt.Println("Error encoding JSON:", err)
+					return
+				}
 
-			fmt.Printf("Message %d sent\n", i)
-		}(i)
+				// Send the POST request
+				err = postRequest("http://192.168.2.39:30002/send-message", jsonData)
+				if err != nil {
+					fmt.Println("Error sending request:", err)
+					return
+				}
+
+				fmt.Printf("Message %d sent\n", i)
+			}(i)
+		}
+
+		wg.Wait()
+		fmt.Printf("Run %d completed\n", run+1)
 	}
-
-	wg.Wait()
-	fmt.Println("All messages sent")
 }
 
 func generatePostData() map[string]string {
 	rand.Seed(time.Now().UnixNano())
 	ordersn := fmt.Sprintf("22%02d%02dQSK8S7BX", rand.Intn(100), rand.Intn(100))
-	//	timestamp := time.Now().Unix()
-	// return map[string]interface{}{
-	// 	"items":              []interface{}{},
-	// 	"ordersn":            ordersn,
-	// 	"status":             "PROCESSED",
-	// 	"completed_scenario": "",
-	// 	"update_time":        timestamp,
-	// }
-	// return []map[string]interface{}{
-	// 	{"key": "items", "value": []interface{}{}},
-	// 	{"key": "ordersn", "value": ordersn},
-	// 	{"key": "status", "value": "PROCESSED"},
-	// 	{"key": "completed_scenario", "value": ""},
-	// 	{"key": "update_time", "value": timestamp},
-	// }
 	data := map[string]string{"key": "ordersn", "value": ordersn}
 	return data
-
-	// return map[string]interface{}{
-	// 	"topic": "ActsOnes_2",
-	// 	"message": map[string]interface{}{
-	// 		"data": map[string]interface{}{
-	// 			"items":              []interface{}{},
-	// 			"ordersn":            ordersn,
-	// 			"status":             "PROCESSED",
-	// 			"completed_scenario": "",
-	// 			"update_time":        timestamp,
-	// 		},
-	// 		"shop_id":   727720655,
-	// 		"code":      3,
-	// 		"timestamp": timestamp,
-	// 	},
-	// }
 }
 
 func postRequest(url string, jsonData []byte) error {

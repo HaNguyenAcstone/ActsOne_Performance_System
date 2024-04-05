@@ -26,6 +26,7 @@ def send_messages_to_api(num_requests):
         # Chờ tất cả các yêu cầu hoàn thành
         for future in futures:
             response = future.result()
+            print(response.text)
 
 def send_message_to_api(url, data, headers):
     response = requests.post(url, json=data, headers=headers)
