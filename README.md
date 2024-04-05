@@ -538,6 +538,10 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --from
 # Check Consumer Groups have now:
 kafka-consumer-groups --bootstrap-server localhost:9092 --list
 
+# Count how many message have in topic 
+kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic my-topic --time -1 | awk -F ":" '{sum += $3} END {print sum}'
+
+
 ```
 -----
 

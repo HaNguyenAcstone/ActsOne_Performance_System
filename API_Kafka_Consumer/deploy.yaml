@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: api-consumer-kafka-control-source
-        image: linhtran2023/api-consumer-kafka-control-source:v02
+        image: linhtran2023/api-consumer-kafka-control-source:v11
         resources:
           limits:
             cpu: "600m"  # Giới hạn 60% của 1 core

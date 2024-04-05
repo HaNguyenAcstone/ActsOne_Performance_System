@@ -33,7 +33,6 @@ def request_lv_3(qty):
 
     for i in range(qty):
 
-        #url = "http://192.168.2.39:30000/save_message?get=2&text=Client" + str(i)
         url = "http://192.168.2.39:5000/save_message?get=2&text=Client" + str(i)
         make_request(url)
 
