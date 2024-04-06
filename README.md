@@ -325,7 +325,7 @@ docker pull redis
 docker run --name my-redis -p 6379:6379 -d redis
 ```
 
-#### . Setup Database API Producer By Kubernetes
+#### . Setup API Producer By Kubernetes
 ```bash 
 # Deployment for Producer API
 apiVersion: apps/v1
