@@ -33,7 +33,7 @@ func main() {
 				}
 
 				// Send the POST request
-				err = postRequest("http://192.168.10.133/save_post_message", jsonData)
+				err = postRequest("http://192.168.10.133:30000/save_post_message", jsonData)
 				if err != nil {
 					fmt.Println("Error sending request:", err)
 					return

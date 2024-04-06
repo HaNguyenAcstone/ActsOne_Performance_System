@@ -49,17 +49,19 @@ def save_message():
         return "Error occurred while adding message to group.", 500
 
 # API sử dụng phương thức POST
-@app.route('/save_post_message', methods=['POST'])
+@app.route('/post_endpoint', methods=['POST'])
 def post_endpoint():
     try:
         # Nhận dữ liệu từ request
         data = request.json
         
-        # Xử lý dữ liệu - ví dụ đơn giản là in ra nó
-        print("Received data:", data)
+        # Lưu dữ liệu vào Redis Stream
+        for i, item in enumerate(data):
+            message = {'content': f"Message {i+1}: {item}"}
+            redis_conn.xadd(stream_name, message)
         
         # Trả về phản hồi cho client
-        return "Data received successfully", 200
+        return "Data saved successfully", 200
     except Exception as e:
         # Ghi log nếu có lỗi xảy ra
         app.logger.error("Error occurred: %s", str(e))
