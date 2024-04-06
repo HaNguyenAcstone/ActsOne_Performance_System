@@ -19,6 +19,8 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Kafka](#setup-kafka)
 
+* [Setup Redis Streams](#setup-redis-streams)
+
 #### 2. Setup Monitor System
 
 * [Setup Grafana](#setup-grafana)
@@ -29,15 +31,13 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Prometheus](#setup-prometheus)
 
-#### 3. API For Test Server's Performance
+#### 3. API Test Server's Performance
 
-* [API - DdOS](API_DdOS/README.md)
+* [API Request DdOS](API_Request_DdOS/README.md)
 
-* [API - Kafka's Producer](API_Kafka's_Producer/README.md)
+* [API Request Big Data 1 Time](API_Request_Big_Data_1_Time/README.md)
 
-* [API - Kafka's Consumer](API_Kafka's_Consumer/README.md)
-
-* [API - Request Redis Streams](API_Request_Redis_Streams/README.md)
+* [API Request Normal](API_Request_Normal/README.md)
 
 #### 4. Kafka Note
 
@@ -314,6 +314,68 @@ for i in range(15):
     producer.produce("minikube-topic", key="message", value="Linh 2")
 
 ```
+---
+
+### Setup Redis Streams
+
+#### . Setup Database Redis By Docker
+
+```bash
+docker pull redis
+docker run --name my-redis -p 6379:6379 -d redis
+```
+
+#### . Setup Database API Producer By Kubernetes
+```bash 
+# Deployment for Producer API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-producer-redis
+  namespace: default
+spec:
+  replicas: 10
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: api-producer-redis
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: api-producer-redis
+    spec:
+      containers:
+      - name: api-producer-redis
+        # Put your images to here
+        image: linhtran2023/actsone_performance_system:v18
+        # Settings the time same your location
+        env:
+        - name: TZ
+          value: "Asia/Ho_Chi_Minh"  # "Asia/Ho_Chi_Minh"
+      restartPolicy: Always
+
+---
+
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-producer-redis
+  namespace: default
+spec:
+  selector:
+    app: api-producer-redis
+  ports:
+  - nodePort: 30000
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  type: NodePort
+```
 
 ---
 ## 2. Setup Monitor System
@@ -524,7 +586,6 @@ kafka-topics --describe --bootstrap-server localhost:9092 --topic my-topic
 # Add more topic
 kafka-topics --bootstrap-server localhost:9092 --alter --partitions 10 --topic my-topic
 
-
 Topic: my-topic    TopicId: MbqptL4WS4232FN9m-iivQ PartitionCount: 1       ReplicationFactor: 1    Configs:
 Topic: my-topic    Partition: 0    Leader: 1       Replicas: 1     Isr: 1
 
@@ -534,7 +595,6 @@ kafka-topics --delete --bootstrap-server localhost:9092 --topic my-topic
 
 # Create producer for send the message:
 kafka-console-producer --bootstrap-server localhost:9092 --topic my-topic
----
 
 # Create consumer for get message:
 kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --from-beginning
@@ -580,9 +640,7 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e11
 # Command for chance the network for container u want ( 7432faf616e8 is Container ID)
 docker network connect prometheus_default 7432faf616e8
 
-# K8S Command ------------------
-
-# Restart workload
+# Restart workload - K8S Command ------------------
 kubectl rollout restart deployment <deployment-name>
 
 ```

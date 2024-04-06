@@ -26,7 +26,7 @@ def send_message():
         return jsonify({'success': False, 'message': str(e)}), 500
 
 # API GET
-# Test: http://192.168.2.39:30002/get-message?key=test_key&value=test_value
+# Test: http://192.168.10.133:30002/get-message?key=test_key&value=test_value
 @app.route('/get-message', methods=['GET'])
 def get_message():
 

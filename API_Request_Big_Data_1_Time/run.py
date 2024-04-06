@@ -10,7 +10,7 @@ def generate_random_value(length=10):
     return ''.join(random.choice(letters_and_digits) for i in range(length))
 
 def send_messages_to_api(num_requests):
-    url = "http://192.168.2.39:30002/send-message"
+    url = "http://192.168.10.133:30002/send-message"
     headers = {'Content-Type': 'application/json'}
 
     with ThreadPoolExecutor() as executor:

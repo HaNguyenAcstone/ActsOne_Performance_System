@@ -1,18 +1,15 @@
 from flask import Flask, request
 from redis import Redis
 from rq import Queue
-# from prometheus_flask_exporter import PrometheusMetrics
-# from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
 
 app = Flask(__name__)
-#metrics = PrometheusMetrics(app) # Dùng để ghi Logs
 redis_conn = Redis(host='192.168.2.39', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
 stream_name = 'Redis_Streams_AcstOne'
 
-# Tạo Redis Stream (nếu chưa tồn tại) -------------------------------- /
+# Tạo Redis Stream (nếu chưa tồn tại)
 if not redis_conn.exists(stream_name):
     # Tạo Redis Stream
     redis_conn.xadd(stream_name, {'init': 'start'})
@@ -36,7 +33,7 @@ def not_save_message():
         return "Error occurred while adding message to group.", 500
 
 # API get + save + reply message ( 10,000 transaction per second, with database process )
-@app.route('/save_message')
+@app.route('/save_message') 
 def save_message():
     get_value = request.args.get('get', default=1, type=int)
     get_value_str = request.args.get('text', default=1, type=str)
