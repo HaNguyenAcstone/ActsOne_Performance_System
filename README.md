@@ -644,3 +644,5 @@ docker network connect prometheus_default 7432faf616e8
 kubectl rollout restart deployment <deployment-name>
 
 ```
+
+
