@@ -27,6 +27,8 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Setup Loki](#setup-loki)
 
+* [Setup Promtail](#setup-promtail)
+
 * [Setup Node Exporter](#setup-node-exporter) 
 
 * [Setup Prometheus](#setup-prometheus)
@@ -513,7 +515,10 @@ table_manager:
   retention_period: 0
 ```
 ---
-<strong>Setup Promtail</strong> for get all logs in every node with ( Daemonset )
+
+### Setup Promtail
+
+For get all logs in every node with ( Daemonset )
 
 <strong>Link Docs Detail</strong>: https://grafana.com/docs/loki/latest/send-data/promtail/installation/
 
@@ -531,7 +536,7 @@ Create the configuration file <strong>values.yaml</strong> with this conntent
 config:
   # publish data to loki
   clients:
-    - url: http://loki-gateway/loki/api/v1/push
+    - url: http://192.168.10.133:3100/loki/api/v1/push
       tenant_id: 1
 ```
 
