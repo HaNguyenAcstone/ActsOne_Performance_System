@@ -11,11 +11,11 @@ import (
 )
 
 func main() {
-	const numRuns = 1
+	const numRuns = 10
 
 	for run := 0; run < numRuns; run++ {
 		var wg sync.WaitGroup
-		const numMessages = 10000
+		const numMessages = 5000
 
 		for i := 0; i < numMessages; i++ {
 			wg.Add(1)
