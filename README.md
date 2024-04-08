@@ -251,7 +251,7 @@ docker pull confluentinc/cp-kafka:7.0.1
 ```
 
 ```bash
-# Deployment Broker
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -259,7 +259,7 @@ metadata:
   labels:
     app: kafka
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: kafka
@@ -304,49 +304,6 @@ spec:
       port: 9092
       targetPort: 9092
 
-```
-
-#### When setup more Broker
-```bash
-# Deployment Broker
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: kafka-deployment
-  labels:
-    app: kafka
-spec:
-  replicas: 3  # Set the number of replicas to 3 for three Kafka brokers
-  selector:
-    matchLabels:
-      app: kafka
-  template:
-    metadata:
-      labels:
-        app: kafka
-    spec:
-      containers:
-      - name: broker
-        image: confluentinc/cp-kafka:7.0.1
-        ports:
-        - containerPort: 9092
-        env:
-        - name: KAFKA_BROKER_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.uid  # Use metadata.uid to generate unique broker ids
-        - name: KAFKA_ZOOKEEPER_CONNECT
-          value: 'zookeeper-service:2181'
-        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-        - name: KAFKA_ADVERTISED_LISTENERS
-          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-service:9092
-        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "1"
-        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
-          value: "1"
-        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
-          value: "1"
 ```
 
 #### After setup you can check for sure
