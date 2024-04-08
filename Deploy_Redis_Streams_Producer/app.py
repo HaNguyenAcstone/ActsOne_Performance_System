@@ -3,7 +3,7 @@ from redis import Redis
 from rq import Queue
 
 app = Flask(__name__)
-redis_conn = Redis(host='192.168.10.133', port=6379, db=0)
+redis_conn = Redis(host='0.0.0.0', port=6379, db=0)
 queue = Queue(connection=redis_conn)
 
 # Tên của Redis Stream
