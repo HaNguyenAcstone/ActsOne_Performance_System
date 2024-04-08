@@ -51,6 +51,12 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Command For Help](#command-for-help)
 
+#### 7. How to backup
+
+* [Backup Grafana Montitor](#backup-grafana-montitor)
+
+* [Backup Kubernetes](#backup-grafana-montitor)
+
 ----
 
 ## 1. Setup environment
@@ -94,8 +100,8 @@ mkdir -p /etc/rancher/rke2/
 # Create tls-san for kubernetes
 cat > /etc/rancher/rke2/config.yaml << HERE
 tls-san:
-- master1
-- master1.demo.local
+- master
+- master.demo.local
 HERE
 
 # Setup environment
@@ -139,7 +145,7 @@ sysctl -p /etc/sysctl.d/90-kubelet.conf
 sudo systemctl restart rke2-agent
 ```
 
-### Remove RKE2
+#### . And then remove RKE2
 ```bash
 
 root@serverhome:~# systemctl stop rke2-server
@@ -151,7 +157,12 @@ root@serverhome:~# rm /usr/local/lib/systemd/system/rke2-server.service
 root@serverhome:~# systemctl daemon-reload
 root@serverhome:~# systemctl status rke2-server
 Unit rke2-server.service could not be found.
-root@serverhome:~#
+
+sudo rm -rf /etc/rancher/rke2
+sudo rm -rf /var/lib/rancher/rke2
+sudo rm -rf /var/log/rancher/rke2
+
+# After remove all you can setup new one
 ```
 
 ---
@@ -859,3 +870,18 @@ spec:
   type: NodePort
 
 ```
+
+---
+
+### Backup Grafana Montitor
+
+When have problem need save layout make before for montior.
+
+
+### Backup Kubernetes
+
+When have problem need save file yaml for setupp all thing and storage of server.
+
+#### . Backup all pipeline yaml 
+
+#### . Backup storage and database
