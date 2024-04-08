@@ -39,22 +39,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-producer-kafka-control-source
+  name: api-producer-kafka-confluent-new
   labels:
-    app: api-producer-kafka-control-source
+    app: api-producer-kafka-confluent-new
 spec:
   replicas: 1  # Số lượng replicas bạn muốn triển khai
   selector:
     matchLabels:
-      app: api-producer-kafka-control-source
+      app: api-producer-kafka-confluent-new
   template:
     metadata:
       labels:
-        app: api-producer-kafka-control-source
+        app: api-producer-kafka-confluent-new
     spec:
       containers:
-      - name: api-producer-kafka-control-source
-        image: linhtran2023/actsone_performance_system:v30
+      - name: api-producer-kafka-confluent-new
+        image: linhtran2023/deploy_kafka_producer_confluent:v01
         resources:
           limits:
             cpu: "600m"  # Giới hạn 60% của 1 core
@@ -69,15 +69,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-producer-kafka-control-source
+  name: api-producer-kafka-confluent-new
 spec:
   type: NodePort
   ports:
     - port: 80  # Cổng exposed bởi Service
       targetPort: 5000  # Cổng của target pod
-      nodePort: 30002
+      nodePort: 30006
   selector:
-    app: api-producer-kafka-control-source 
+    app: api-producer-kafka-confluent-new 
 
 
 # This help for auto scale the pod  -------------------
@@ -89,7 +89,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: api-producer-kafka-control-source
+    name: api-producer-kafka-confluent-new
   minReplicas: 1 # This min Pod
   maxReplicas: 10 # This max Pod
   metrics:

@@ -250,12 +250,13 @@ spec:
 docker pull confluentinc/cp-kafka:7.0.1
 ```
 
+#### .... Deploy for Broker 1
 ```bash
-# Deployment
+# Deployment Broker 1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kafka-deployment
+  name: kafka-broker-1
   labels:
     app: kafka
 spec:
@@ -303,6 +304,62 @@ spec:
     - protocol: TCP
       port: 9092
       targetPort: 9092
+
+```
+#### .... Deploy for Broker 2
+```bash
+# Deployment Broker 2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-broker-2
+  labels:
+    app: kafka-broker-2 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: broker
+        image: confluentinc/cp-kafka:7.0.1
+        ports:
+        - containerPort: 9093
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "1"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: 'zookeeper-service:2181'
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9093
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: "1"
+
+---
+
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-broker-2
+spec:
+  selector:
+    app: kafka-broker-2
+  ports:
+    - protocol: TCP
+      port: 9093
+      targetPort: 9093
 
 ```
 
