@@ -341,15 +341,15 @@ spec:
           # In here also change svc name for broker 2: kafka-broker-2:9092
           value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9092
         - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "2"
+          value: "1"
         - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
-          value: "2"
+          value: "1"
         - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
-          value: "2"
+          value: "1"
 
 ---
 
-# Service just change name kafka-broker-2, also change pod "9093"
+# Service
 apiVersion: v1
 kind: Service
 metadata:
