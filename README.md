@@ -43,8 +43,11 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [Command For Control](#command-for-control)
 
+#### 5. Envoy - Setup For Loadblancer
 
-#### 5. Tips
+* [Envoy - Setup For Loadblancer](#envoy---setup-for-loadblancer)
+
+#### 6. Tips
 
 * [Command For Help](#command-for-help)
 
@@ -693,7 +696,7 @@ Envoy provides support for load balancing in Kubernetes environments by offering
 version: '3'
 services:
   envoy:
-    image: envoyproxy/envoy:v1.19.0
+    image: envoyproxy/envoy:v1.25.11
     container_name: my-envoy
     ports:
       - "8080:8080"
@@ -773,7 +776,7 @@ spec:
     spec:
       containers:
       - name: envoy
-        image: envoyproxy/envoy:v1.19.0
+        image: envoyproxy/envoy:v1.25.11
         ports:
         - containerPort: 8080
         - containerPort: 9901   # Admin port
@@ -831,12 +834,28 @@ data:
                   - endpoint:
                       address:
                         socket_address:
-                          address: 192.168.200.131
-                          port_value: 30000
+                          address: 0.0.0.0
+                          port_value: 30005
               - lb_endpoints:
                   - endpoint:
                       address:
                         socket_address:
-                          address: 192.168.200.131
-                          port_value: 30001
+                          address: 0.0.0.0
+                          port_value: 30006
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-service
+spec:
+  selector:
+    app: envoy
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30010  # Chọn một port number của NodePort
+  type: NodePort
+
 ```
