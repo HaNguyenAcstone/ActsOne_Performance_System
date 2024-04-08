@@ -4,9 +4,6 @@
 
 Stream Data is a technique that allows processing data in real-time or near-real-time, where data is processed as a continuous stream rather than as fixed or static chunks. It enables handling of unbounded data, ensuring ordered data processing. Technologies like Redis Streams and Kafka Streams provide mechanisms to manage and process data in this streaming fashion, commonly used in data analytics, state monitoring, log processing, and various other real-time data processing scenarios.
 
-
-<img src="Picture/2.png" ><br>
-
 ----
 
 ### Table of contents
@@ -128,6 +125,7 @@ systemctl start rke2-server
 
 ```
 
+* <strong>Note:</strong> When you start success RKE2, should be restart server for save that, if in time you got electricity turn off, your RKE2 will have big problem.
 ---
 
 ### Fix when can't start RKE2
@@ -150,19 +148,22 @@ sudo systemctl restart rke2-agent
 #### . And then remove RKE2
 ```bash
 
-root@serverhome:~# systemctl stop rke2-server
-root@serverhome:~# rm -rf /etc/rancher/rke2
-root@serverhome:~# rm -rf /var/lib/etcd
-root@serverhome:~# apt-get remove rke2
-root@serverhome:~# dpkg -r rancher-rke2
+systemctl stop rke2-server
+rm -rf /etc/rancher/rke2
+rm -rf /var/lib/etcd
+
+apt-get remove rke2
+dpkg -r rancher-rke2
+
 root@serverhome:~# rm /usr/local/lib/systemd/system/rke2-server.service
-root@serverhome:~# systemctl daemon-reload
+
+systemctl daemon-reload
 root@serverhome:~# systemctl status rke2-server
 Unit rke2-server.service could not be found.
 
-sudo rm -rf /etc/rancher/rke2
-sudo rm -rf /var/lib/rancher/rke2
-sudo rm -rf /var/log/rancher/rke2
+rm -rf /etc/rancher/rke2
+rm -rf /var/lib/rancher/rke2
+rm -rf /var/log/rancher/rke2
 
 # After remove all you can setup new one
 ```
