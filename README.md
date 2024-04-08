@@ -314,7 +314,7 @@ kind: Deployment
 metadata:
   name: kafka-broker-2
   labels:
-    app: kafka-broker-2 
+    app: kafka
 spec:
   replicas: 1
   selector:
@@ -329,15 +329,16 @@ spec:
       - name: broker
         image: confluentinc/cp-kafka:7.0.1
         ports:
-        - containerPort: 9093
+        - containerPort: 9092
         env:
         - name: KAFKA_BROKER_ID
-          value: "1"
+          value: "2" # Change ID for next ID broker
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: 'zookeeper-service:2181'
         - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
           value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
         - name: KAFKA_ADVERTISED_LISTENERS
+          # In here also change svc name for broker 2: kafka-broker-2:9093
           value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9093
         - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
           value: "1"
@@ -348,14 +349,14 @@ spec:
 
 ---
 
-# Service
+# Service just change name kafka-broker-2, also change pod "9093"
 apiVersion: v1
 kind: Service
 metadata:
   name: kafka-broker-2
 spec:
   selector:
-    app: kafka-broker-2
+    app: kafka
   ports:
     - protocol: TCP
       port: 9093
