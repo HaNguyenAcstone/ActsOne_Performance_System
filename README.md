@@ -738,7 +738,7 @@ static_resources:
       load_assignment:
         cluster_name: service_cluster
         endpoints:
-           # Put your App Adress ở đây
+          # Put your IP App Here
           - lb_endpoints:
               - endpoint:
                   address:
@@ -750,7 +750,93 @@ static_resources:
                   address:
                     socket_address:
                       address: 192.168.200.131
-                      port_value: 30002
+                      port_value: 30001
 ```
 
 * And then run this command: ***docker-compose up -d***
+
+#### . Setup by K8S
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envoy
+  template:
+    metadata:
+      labels:
+        app: envoy
+    spec:
+      containers:
+      - name: envoy
+        image: envoyproxy/envoy:v1.19.0
+        ports:
+        - containerPort: 8080
+        - containerPort: 9901   # Admin port
+        # Add volume mounts and other configurations as needed
+        volumeMounts:
+          - name: envoy-config
+            mountPath: /etc/envoy
+      volumes:
+        - name: envoy-config
+          configMap:
+            name: envoy-configmap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: envoy-configmap
+data:
+  envoy.yaml: |
+    static_resources:
+      listeners:
+        - name: listener_0
+          address:
+            socket_address:
+              address: 0.0.0.0
+              port_value: 8080
+          filter_chains:
+            - filters:
+                - name: envoy.filters.network.http_connection_manager
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                    stat_prefix: ingress_http
+                    codec_type: AUTO
+                    route_config:
+                      name: local_route
+                      virtual_hosts:
+                        - name: backend
+                          domains: ["*"]
+                          routes:
+                            - match:
+                                prefix: "/"
+                              route:
+                                cluster: service_cluster
+                    http_filters:
+                      - name: envoy.filters.http.router
+      clusters:
+        - name: service_cluster
+          connect_timeout: 0.25s
+          type: STRICT_DNS
+          lb_policy: ROUND_ROBIN
+          load_assignment:
+            cluster_name: service_cluster
+            # Put your IP App / Server want loadblancer
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: 192.168.200.131
+                          port_value: 30000
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: 192.168.200.131
+                          port_value: 30001
+```
