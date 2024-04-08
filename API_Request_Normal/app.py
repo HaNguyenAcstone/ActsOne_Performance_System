@@ -1,40 +1,23 @@
-import requests
-import time
+from flask import Flask, request
 
-def make_request(url):
-    start_time = time.time()
-    response = requests.get(url)
-    end_time = time.time()
-    
-    print("Thời gian hoàn thành yêu cầu:", end_time - start_time, "giây")
-    
-    if response.ok:
-        content_size_kb = len(response.content) / 1024  # Chuyển từ byte sang KB
-        print("Dung lượng của yêu cầu:", content_size_kb, "KB")
-        print("Kết quả trả về:", response.text)
-    else:
-        print("Yêu cầu không thành công. Mã trạng thái:", response.status_code)
+app = Flask(__name__)
 
-def request_lv_1(qty):
-    
-    for i in range(qty):
+# API just get request from client ( 1 mil transaction per second, no message )
+@app.route('/just_send_request', methods=['GET'])
+def just_get_request():
+    # Không trả về bất kỳ phản hồi nào cho client
+    return '', 200
 
-        url = "http://192.168.2.39:30000/just_send_request"
-        make_request(url)
+# API just send message and not save ( 100,000 transaction per second, with simple message )
+@app.route('/not_save_message', methods=['GET'])
+def not_save_message():
+    try:
+        return "Hello, I got your message", 200
+    except Exception as e:
+        # Ghi log nếu có lỗi xảy ra
+        app.logger.error("Error occurred: %s", str(e))
+        return "Error occurred.", 500
 
-def request_lv_2(qty):
-    
-    for i in range(qty):
-
-        url = "http://192.168.2.39:30000/not_save_message"
-        make_request(url)
-
-def request_lv_3(qty):
-
-    for i in range(qty):
-
-        url = "http://192.168.2.39:5000/save_message?get=2&text=Client" + str(i)
-        make_request(url)
-
-# Run test request
-request_lv_3(1)
+# Sử dụng prometheus_client để xuất các metric
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
