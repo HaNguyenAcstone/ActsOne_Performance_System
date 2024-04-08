@@ -75,7 +75,7 @@ spec:
   ports:
     - port: 80  # Cổng exposed bởi Service
       targetPort: 5000  # Cổng của target pod
-      nodePort: 30002
+      nodePort: 30000
   selector:
     app: api-producer-kafka-basic 
 

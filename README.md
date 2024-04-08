@@ -680,3 +680,77 @@ kubectl rollout restart deployment <deployment-name>
 ```
 
 
+-----
+
+### Envoy - Setup For Loadblancer
+Envoy provides support for load balancing in Kubernetes environments by offering flexible load balancing algorithms such as round-robin, least connection, random, and weighted load balancing. It integrates with Kubernetes' service discovery mechanisms to automatically detect and update the list of service endpoints. Additionally, Envoy facilitates synchronization and traffic control between proxies, optimizing load distribution and enhancing system reliability.
+
+### . Setup by Docker
+
+#### Create docker-compose.yml
+
+```bash
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.19.0
+    container_name: my-envoy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+```
+
+#### Create envoy.yaml
+
+```bash
+static_resources:
+  listeners:
+    - name: listener_0
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 8080
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: ingress_http
+                codec_type: AUTO
+                route_config:
+                  name: local_route
+                  virtual_hosts:
+                    - name: backend
+                      domains: ["*"]
+                      routes:
+                        - match:
+                            prefix: "/"
+                          route:
+                            cluster: service_cluster
+                http_filters:
+                  - name: envoy.filters.http.router
+  clusters:
+    - name: service_cluster
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      load_assignment:
+        cluster_name: service_cluster
+        endpoints:
+           # Put your App Adress ở đây
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 192.168.200.131
+                      port_value: 30000
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 192.168.200.131
+                      port_value: 30002
+```
+
+* And then run this command: ***docker-compose up -d***
