@@ -258,16 +258,16 @@ kind: Deployment
 metadata:
   name: kafka-broker-1
   labels:
-    app: kafka
+    app: kafka-broker-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka
+      app: kafka-broker-1
   template:
     metadata:
       labels:
-        app: kafka
+        app: kafka-broker-1
     spec:
       containers:
       - name: broker
@@ -296,10 +296,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-service
+  name: kafka-broker-1
 spec:
   selector:
-    app: kafka
+    app: kafka-broker-1
   ports:
     - protocol: TCP
       port: 9092
@@ -314,16 +314,16 @@ kind: Deployment
 metadata:
   name: kafka-broker-2
   labels:
-    app: kafka
+    app: kafka-broker-2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka
+      app: kafka-broker-2
   template:
     metadata:
       labels:
-        app: kafka
+        app: kafka-broker-2
     spec:
       containers:
       - name: broker
@@ -338,14 +338,14 @@ spec:
         - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
           value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
         - name: KAFKA_ADVERTISED_LISTENERS
-          # In here also change svc name for broker 2: kafka-broker-2:9093
-          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9093
+          # In here also change svc name for broker 2: kafka-broker-2:9092
+          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9092
         - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "1"
+          value: "2"
         - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
-          value: "1"
+          value: "2"
         - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
-          value: "1"
+          value: "2"
 
 ---
 
@@ -356,11 +356,11 @@ metadata:
   name: kafka-broker-2
 spec:
   selector:
-    app: kafka
+    app: kafka-broker-2
   ports:
     - protocol: TCP
-      port: 9093
-      targetPort: 9093
+      port: 9092
+      targetPort: 9092
 
 ```
 
@@ -660,10 +660,10 @@ scrape_configs:
 
 ```bash 
 # End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
-k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
+k exec -it ID_POD -- /bin/bash
 
 # Another command for enter the pod consumer or producer
-k exec -it api-consumer-kafka-control-source-5547d9c797-s4pww -- /bin/bash
+k exec -it ID_POD -- /bin/bash
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)

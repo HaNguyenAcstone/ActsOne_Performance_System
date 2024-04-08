@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Topic Use 
 topic_Use = 'my-topic'
 # Connect with Kafka Producer
-conf = {"bootstrap.servers": "kafka-broker-2:9092", "client.id": socket.gethostname()}
+conf = {"bootstrap.servers": "kafka-broker-1:9092", "client.id": socket.gethostname()}
 producer = Producer(conf)
 
 # API POST
