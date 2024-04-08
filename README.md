@@ -249,25 +249,24 @@ spec:
 ```bash
 docker pull confluentinc/cp-kafka:7.0.1
 ```
-
-#### .... Deploy for Broker 1
+#### .... Deploy for deployment Kafka
 ```bash
-# Deployment Broker 1
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kafka-broker-1
+  name: kafka-deployment
   labels:
-    app: kafka-broker-1
+    app: kafka
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-broker-1
+      app: kafka
   template:
     metadata:
       labels:
-        app: kafka-broker-1
+        app: kafka
     spec:
       containers:
       - name: broker
@@ -296,67 +295,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-broker-1
+  name: kafka-service
 spec:
   selector:
-    app: kafka-broker-1
-  ports:
-    - protocol: TCP
-      port: 9092
-      targetPort: 9092
-
-```
-#### .... Deploy for Broker 2
-```bash
-# Deployment Broker 2
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: kafka-broker-2
-  labels:
-    app: kafka-broker-2
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: kafka-broker-2
-  template:
-    metadata:
-      labels:
-        app: kafka-broker-2
-    spec:
-      containers:
-      - name: broker
-        image: confluentinc/cp-kafka:7.0.1
-        ports:
-        - containerPort: 9092
-        env:
-        - name: KAFKA_BROKER_ID
-          value: "2" # Change ID for next ID broker
-        - name: KAFKA_ZOOKEEPER_CONNECT
-          value: 'zookeeper-service:2181'
-        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-        - name: KAFKA_ADVERTISED_LISTENERS
-          # In here also change svc name for broker 2: kafka-broker-2:9092
-          value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-broker-2:9092
-        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "1"
-        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
-          value: "1"
-        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
-          value: "1"
-
----
-
-# Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: kafka-broker-2
-spec:
-  selector:
-    app: kafka-broker-2
+    app: kafka
   ports:
     - protocol: TCP
       port: 9092
@@ -660,10 +602,10 @@ scrape_configs:
 
 ```bash 
 # End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
-k exec -it ID_POD -- /bin/bash
+k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
 
 # Another command for enter the pod consumer or producer
-k exec -it ID_POD -- /bin/bash
+k exec -it api-consumer-kafka-control-source-5547d9c797-s4pww -- /bin/bash
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)
