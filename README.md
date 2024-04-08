@@ -155,13 +155,11 @@ rm -rf /var/lib/etcd
 apt-get remove rke2
 dpkg -r rancher-rke2
 
-root@serverhome:~# rm /usr/local/lib/systemd/system/rke2-server.service
+rm /usr/local/lib/systemd/system/rke2-server.service
 
 systemctl daemon-reload
-root@serverhome:~# systemctl status rke2-server
-Unit rke2-server.service could not be found.
+systemctl status rke2-server
 
-rm -rf /etc/rancher/rke2
 rm -rf /var/lib/rancher/rke2
 rm -rf /var/log/rancher/rke2
 
