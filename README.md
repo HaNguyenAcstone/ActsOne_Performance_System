@@ -619,11 +619,8 @@ scrape_configs:
 ### Command For Control
 
 ```bash 
-# End to deploy -> Kafka Service ( k exec -it pod -- /bin/bash )
-k exec -it kafka-deployment-7fc8fcc44f-l4gdt -- /bin/bash
-
-# Another command for enter the pod consumer or producer
-k exec -it api-consumer-kafka-control-source-5547d9c797-s4pww -- /bin/bash
+# Enter to Pod want control
+k exec -it ID_POD -- /bin/bash
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)
@@ -694,6 +691,9 @@ docker network connect prometheus_default 7432faf616e8
 
 # Restart workload - K8S Command ------------------
 kubectl rollout restart deployment <deployment-name>
+
+# See performance CPU in real time
+watch -n 1 kubectl top pod
 
 ```
 

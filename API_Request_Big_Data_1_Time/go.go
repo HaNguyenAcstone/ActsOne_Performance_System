@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	const numRuns = 10
+	const numRuns = 1
 
 	for run := 0; run < numRuns; run++ {
 		var wg sync.WaitGroup
@@ -33,7 +33,7 @@ func main() {
 				}
 
 				// Send the POST request
-				err = postRequest("http://192.168.2.39:30010/send-message", jsonData)
+				err = postRequest("http://192.168.2.39:30002/send-message", jsonData)
 				if err != nil {
 					fmt.Println("Error sending request:", err)
 					return

@@ -1,0 +1,3 @@
+Flask
+confluent_kafka
+configparser
