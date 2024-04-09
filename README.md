@@ -900,6 +900,13 @@ When have problem need save layout make before for montior.
 
 When have problem need save file yaml for setupp all thing and storage of server.
 
+```bash
+# In here will get all pipeline all Kubernetes
+kubectl get pv,pvc --all-namespaces -o yaml > pv_pvc_backup.yaml
+```
+
+<strong>Testing ... </strong>
+
 #### . Backup all pipeline yaml 
 
 #### . Backup storage and database
