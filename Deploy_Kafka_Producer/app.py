@@ -100,13 +100,15 @@ def send_message():
 @app.route('/get-message', methods=['GET'])
 def get_message():
     try:
-        # Lấy một tin nhắn từ hàng đợi
-        key, value = message_queue.get(timeout=0.2)
-        return jsonify({'success': True, 'key': key, 'value': value}), 200
-    except queue.Empty:
-        return jsonify({'success': False, 'message': 'Queue is empty'}), 404
+        if not message_queue.empty():  # Kiểm tra hàng đợi có trống không
+            # Lấy một tin nhắn từ hàng đợi
+            key, value = message_queue.get(timeout=0.2)
+            return jsonify({'success': True, 'key': key, 'value': value}), 200
+        else:
+            return jsonify({'success': False, 'message': 'Queue is empty'}), 404
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
+
 
 # Run the Flask app
 if __name__ == '__main__':
