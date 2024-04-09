@@ -624,7 +624,7 @@ k exec -it ID_POD -- /bin/bash
 ---
 
 # Create the topic inside kafka ( my-topic  = Name topic u want)
-kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic my-topic
+kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 10 --topic my-topic
 
 # Show the topic have 
 kafka-topics --list --bootstrap-server localhost:9092
@@ -650,6 +650,9 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --from
 
 # Check Consumer Groups have now:
 kafka-consumer-groups --bootstrap-server localhost:9092 --list
+
+# Remove All message in 1 topic 
+kafka-topics --bootstrap-server localhost:9092 --delete --topic my-topic
 
 # Count how many message have in topic 
 kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic my-topic --time -1 | awk -F ":" '{sum += $3} END {print sum}'
