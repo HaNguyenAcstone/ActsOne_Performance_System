@@ -11,7 +11,7 @@ class WebsiteUser(HttpUser):
     #     })
 
     def on_start(self):
-        self.client.get("/get-message?key=Hello&value=Linh")
+        self.client.get("/get-message?key=Order&value=Linh")
         #self.client.get("/save_message?get=2&text=Linh")
         #self.client.get("/just_send_request")
         
