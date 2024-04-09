@@ -4,6 +4,8 @@
 
 Stream Data is a technique that allows processing data in real-time or near-real-time, where data is processed as a continuous stream rather than as fixed or static chunks. It enables handling of unbounded data, ensuring ordered data processing. Technologies like Redis Streams and Kafka Streams provide mechanisms to manage and process data in this streaming fashion, commonly used in data analytics, state monitoring, log processing, and various other real-time data processing scenarios.
 
+<p align="center"><img src="Picture/image-4.png" ></p>
+
 ----
 
 ### Table of contents
@@ -203,9 +205,13 @@ docker run --name redis -d -p 6379:6379 redis
 
 ### Setup Kafka
 
+<p align="center"><img src="Picture/image-1.png" ></p>
+
 ### . Setup by K8S
 
 Research's Link: https://www.datumo.io/blog/setting-up-kafka-on-kubernetes
+
+<p align="center"><img src="Picture/image-2.png" ></p>
 
 ### .. zookeeper-deployment
 
@@ -367,6 +373,8 @@ for i in range(15):
 
 ### Setup Redis Streams
 
+<p align="center"><img src="Picture/image-3.png" ></p>
+
 #### . Setup Database Redis By Docker
 
 ```bash
@@ -428,6 +436,9 @@ spec:
 
 ---
 ## 2. Setup Monitor System
+
+<p align="center"><img src="Picture/image.png" ></p>
+
 ### Setup Grafana
 
 . Setup by docker
