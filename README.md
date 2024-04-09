@@ -36,7 +36,7 @@ Stream Data is a technique that allows processing data in real-time or near-real
 
 * [API Request DdOS](API_Request_DdOS/README.md)
 
-* [API Request Big Data 1 Time](API_Request_Big_Data_1_Time/README.md)
+* [API Request Stream Kafka](/README.md)
 
 * [API Request Normal](API_Request_Normal/README.md)
 
