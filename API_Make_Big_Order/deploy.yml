@@ -1,0 +1,45 @@
+# Deployment Have Control the Source
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-make-big-order
+  labels:
+    app: api-make-big-order
+spec:
+  replicas: 1  # Số lượng replicas bạn muốn triển khai
+  selector:
+    matchLabels:
+      app: api-make-big-order
+  template:
+    metadata:
+      labels:
+        app: api-make-big-order
+    spec:
+      containers:
+      - name: api-make-big-order
+        image: linhtran2023/api-make-big-order:v01
+
+        linhtran2023/api_make_big_order
+        resources:
+          limits:
+            cpu: "300m"  # Giới hạn 60% của 1 core
+            memory: "300Mi"  # Giới hạn 200Mi RAM
+          requests:
+            cpu: "200m"  # Yêu cầu ít nhất 100m CPU
+            memory: "200Mi"  # Yêu cầu ít nhất 100Mi RAM
+
+---
+
+# Service have control source --------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-make-big-order
+spec:
+  type: NodePort
+  ports:
+    - port: 80  # Cổng exposed bởi Service
+      targetPort: 5000  # Cổng của target pod
+      nodePort: 30010
+  selector:
+    app: api-make-big-order 
