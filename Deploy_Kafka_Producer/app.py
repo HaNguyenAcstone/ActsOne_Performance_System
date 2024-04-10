@@ -59,7 +59,7 @@ app = Flask(__name__)
 topic_to_use = 'my-topic'
 
 # Connect with Kafka Producer
-conf = {"bootstrap.servers": "kafka-service:9092", "client.id": socket.gethostname()}
+conf = {"bootstrap.servers": "192.168.2.45:9092", "client.id": socket.gethostname()}
 producer = Producer(conf)
 
 # Message queue
