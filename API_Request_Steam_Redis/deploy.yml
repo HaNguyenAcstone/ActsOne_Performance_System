@@ -1,0 +1,43 @@
+# Deployment Have Control the Source
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-request-steam-redis
+  labels:
+    app: api-request-steam-redis
+spec:
+  replicas: 1  # Số lượng replicas bạn muốn triển khai
+  selector:
+    matchLabels:
+      app: api-request-steam-redis
+  template:
+    metadata:
+      labels:
+        app: api-request-steam-redis
+    spec:
+      containers:
+      - name: api-request-steam-redis
+        image: linhtran2023/api_request_steam_redis:v01
+        resources:
+          limits:
+            cpu: "900m"  # Giới hạn 60% của 1 core
+            memory: "900Mi"  # Giới hạn 200Mi RAM
+          requests:
+            cpu: "800m"  # Yêu cầu ít nhất 100m CPU
+            memory: "800Mi"  # Yêu cầu ít nhất 100Mi RAM
+
+---
+
+# Service have control source --------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-request-steam-redis
+spec:
+  type: NodePort
+  ports:
+    - port: 80  # Cổng exposed bởi Service
+      targetPort: 5000  # Cổng của target pod
+      nodePort: 30005
+  selector:
+    app: api-request-steam-redis 

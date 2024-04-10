@@ -5,7 +5,7 @@ import json
 import time
 
 app = Flask(__name__)
-redis_conn = Redis(host='192.168.2.39', port=31143, db=0)
+redis_conn = Redis(host='192.168.2.39', port=6379, db=0)
 
 # Thiết lập logging level cho Flask app
 app.logger.setLevel(logging.INFO)
